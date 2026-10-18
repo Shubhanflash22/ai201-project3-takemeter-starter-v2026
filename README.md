@@ -176,7 +176,7 @@ of next unit's variance. -->
 
 train 230 · val 50 · test 50 (stratified 70/15/15 of the 330 rows). Test split per label: `reaction` 17, `hot_take` 14, `news_info` 14, `analysis` 5. `analysis` has only 5 examples in the test split (fewer than about 8), so its F1 will swing a lot between seeds in unit 6.
 
-
+Stretch feature: a second training run with roberta-base instead of distilbert-base-uncased, using seed 42, 5 epochs and learning rate 8e-6 (so three settings differed from the main run, not only the model). Results on the same 50-post test split: DistilBERT accuracy 0.660 / macro F1 0.515; RoBERTa accuracy 0.340 / macro F1 0.127. What moved: RoBERTa collapsed to predicting reaction for almost every post. Accuracy 0.340 is exactly the share of reaction in the test split (17 of 50), and reaction was the only label with a nonzero F1 (0.507). Validation loss was still falling at epoch 5 (1.22, against about 1.39 for random guessing over four labels), so at this learning rate the model was undertrained, not shown to be worse. An earlier attempt at learning rate 8e-4 also collapsed (same 0.340 / 0.127), so RoBERTa failed at both a rate far too high and one too low, and I have not yet tested it at the default 2e-5. This run does not show RoBERTa is worse than DistilBERT, because the settings differed. I plan to rerun it properly in unit 6.
 
 ---
 
