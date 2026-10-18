@@ -42,6 +42,8 @@
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
+TakeMeter sorts posts from r/IndianCricket, a large public Indian cricket fan community, into four types: `analysis`, `hot_take`, `reaction` and `news_info`. The community mixes stat-backed arguments, confident opinions, in-the-moment fan reactions and plain news or match logistics, and regulars can usually tell which is which within a sentence. I fine-tuned `distilbert-base-uncased` on 330 posts I labeled so it can sort new posts the same way.
+
 
 
 ---
@@ -54,33 +56,55 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+### `analysis`
 
-**Definition:**
-
-**Example 1:**
->
-
-**Example 2:**
->
-
-### `label_two`
-
-**Definition:**
+**Definition:** An argument carried by a specific, checkable fact (a stat, record, date, figure or quote).
 
 **Example 1:**
->
+> Reminder that Bumrah had an economy of 6 in the WC this year bowling death overs on these 250 run pitches
 
 **Example 2:**
->
+> Hope is better than Gayle in T20Is? Shai Hope has more runs than Chris Gayle at better Average and Strike Rate and has more centuries as well. So is he better?
+
+### `hot_take`
+
+**Definition:** A confident opinion, claim, prediction or rant with no support, or only vague support ("almost all", "everyone").
+
+**Example 1:**
+> Steve Smith test avg fell off a cliff
+
+**Example 2:**
+> Don't think SKY is good enough to be a part of Indian T20 team. I feel like SKY is the most overrated T20 player and does not deserve to be a part of Indian T20 team, let alone, be the captain of the team.
+
+### `reaction`
+
+**Definition:** An immediate emotional, humorous or fan response, with no claim or argument.
+
+**Example 1:**
+> WTF!???!??! WAS THAT. NOW I AM SCARED.
+
+**Example 2:**
+> That reaction from Kl Rahul was epic
+
+### `news_info`
+
+**Definition:** Reports a fact, announcement or piece of logistics (headlines, match threads, squad news), or asks a neutral question, with no opinion stated.
+
+**Example 1:**
+> [News📰] Ravichandran Ashwin is set to be appointed as Team India's new Chief Selector ahead of the 2027 ODI World Cup.
+
+**Example 2:**
+> 🚨 MAHELA JAYAWARDENE STEPS DOWN AS THE MUMBAI INDIANS HEAD COACH. 🚨
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `analysis` and `hot_take`.
 
 **The decision rule I used every time:**
 <!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
      if the tone is heated." -->
+
+If a specific, checkable fact (a stat, record, date, figure or quote) carries the argument, the post is `analysis`, even if the tone is heated. A vague quantifier such as "almost all" or "everyone", or a fact that only decorates an opinion already stated, does not count, so the post is `hot_take`. A second rule I used with it: if a post states an opinion at all, it is never `news_info`.
 
 
 
@@ -91,19 +115,22 @@
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** r/IndianCricket, a public subreddit. Reddit blocked scripted access, so I saved the public listings (hot, new, top of the year, top of the month, controversial of the year) as JSON from my browser and converted them to CSV with a short script (`json_to_csv.py`), keeping the title plus any body text. That gave 350 posts; after cleaning (HTML entities, duplicates, "content not supported" stubs) 346 remained, and 330 are in `labels.csv`. The 16 left out fit none of my four labels (for example empty prompts like "What's your thought on this?" and off-topic venting).
 
 **How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
 Say so plainly — the disclosure is required, not penalised. -->
+
+I labeled 20 posts cold first (a random sample, no tools and no AI, marked `cold` in the note column). The other 310 were pre-labeled by Claude and checked by me from my written definitions and marked "pre-labeled" in the note column; the rows it was least sure of were also marked "(uncertain)". I then read and corrected the pre-labeled rows. The final file is one unsplit `labels.csv` with text, label and note columns.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `reaction` | 113 | 34.2% |
+| `news_info` | 95 | 28.8% |
+| `hot_take` | 93 | 28.2% |
+| `analysis` | 29 | 8.8% |
+| **Total** | 330 | 100% |
 
 **Three hard cases**
 
@@ -111,25 +138,25 @@ Say so plainly — the disclosure is required, not penalised. -->
      been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
-> *The post:*
+> *The post:* GG's North zone favoritism is ruining golden period of Indian cricket. Maybe I am wrong here, but GG seems to have extra preference for North Indians. Among nearly 10 debuts across various formats under GG, Almost all of them are from Hindi belt of North Ind…
 >
-> *Could have been:*
+> *Could have been:* `analysis` or `hot_take`.
 >
-> *I chose, because:*
+> *I chose, because:* `hot_take`. It points at a count ("nearly 10 debuts") but says "almost all" without naming the players or states, so the fact is too vague to check and does not carry the argument. This is exactly the case my decision rule was written for.
 
 **2.**
-> *The post:*
+> *The post:* Stuart Binny for 2027 WC. Stuart Binny deserves to be in India's 2027 World Cup squad. Bumrah? 6/19. Shami? 5/18. Siraj? Whatever. Stuart Binny: 6/4. …
 >
-> *Could have been:*
+> *Could have been:* `analysis` or `hot_take`.
 >
-> *I chose, because:*
+> *I chose, because:* `analysis`. It is playful and cherry-picked, but the bowling figures are specific and checkable and they carry the whole argument, so my rule says `analysis`. The tone does not matter.
 
 **3.**
-> *The post:*
+> *The post:* Was Rahul Dravid the most selfish cricketer to play for India? Yes… yessss. Rahul Dravid was the most selfish cricketer not only in India but in world also. Let me give you some reason: 2001, Aus vs Ind: Aus gave follow on …
 >
-> *Could have been:*
+> *Could have been:* `analysis` or `hot_take`.
 >
-> *I chose, because:*
+> *I chose, because:* `analysis`. The opening claim is extreme and unsupported, but it goes on to name specific matches and events as its reasons, so checkable facts carry the argument. It was a close call and I could see it labeled `hot_take`.
 
 ---
 
@@ -137,15 +164,17 @@ Say so plainly — the disclosure is required, not penalised. -->
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`.
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Settings:** <!-- epochs, learning rate, batch size, seed --> 3 epochs, learning rate 2e-5, batch size 16, max length 128 tokens, seed 42. Trained on CPU (torch 2.14.1+cpu), no GPU.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** Nothing. I used all the default settings.
 
 **Split sizes:** <!-- train / val / test, and per-label counts in the test
 split. If a label had fewer than about 8 in test, say so — it explains a lot
 of next unit's variance. -->
+
+train 230 · val 50 · test 50 (stratified 70/15/15 of the 330 rows). Test split per label: `reaction` 17, `hot_take` 14, `news_info` 14, `analysis` 5. `analysis` has only 5 examples in the test split (fewer than about 8), so its F1 will swing a lot between seeds in unit 6.
 
 
 
@@ -162,17 +191,17 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I gave Claude my 350 collected posts and asked what distinctions it could see in the actual text.
+- *What came back:* Five types of post (short emotional reactions, confident claims with no support, arguments backed by a specific fact, questions and debate prompts, and news or match logistics) and a draft three-label set, with a note that news and match threads fit none of the three.
+- *What I changed:* I added a fourth label, `news_info`, instead of filtering those posts out, and kept the `analysis` vs `hot_take` decision rule as my own.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked Claude for a Python script to collect r/IndianCricket posts into a CSV.
+- *What came back:* A scraper that called Reddit's public JSON endpoints. It failed on my machine with 403 "Blocked" errors on every listing and saved 0 posts.
+- *What I changed:* I switched approach: I saved the same listings as JSON from my browser and had a second script (`json_to_csv.py`) convert them to the text, label, note CSV.
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** Claude pre-labeled 310 of the 330 rows in `labels.csv` from my four written definitions; those rows are marked "pre-labeled by AI" in the note column, and I read and corrected them. The other 20 rows (marked `cold`) are my own labels, made first with no AI help.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
