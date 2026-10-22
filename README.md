@@ -466,7 +466,7 @@ learned:**
 
 I meant `hot_take` to be a general claim about the world and `news_info` to be a neutral report, but the model leans toward `reaction` for short informal posts: on the after run, seed 42, 7 of 14 real `hot_take` posts and 5 of 15 real `news_info` posts were called `reaction`. So it learned something closer to tone (short and casual against structured and numeric) than my distinctions of claim, report and feeling, and it probably learned `analysis` partly as "has many numbers", which is how I collected the new examples.
 
-
+**Stretch (confidence check, added after the runs):** the most-confident third of predictions was right more often than the least-confident third on every seed, both before (88/75/75% against 50/56/38%) and after (72/72/61% against 44/44/33%), so the model's confidence is informative, though the average confidence when right (about 0.36) and wrong (about 0.34) is nearly the same.
 
 <!-- ═════════════════════════════════════════════════════════════════════
 
