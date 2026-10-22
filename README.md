@@ -409,6 +409,10 @@ I don’t want to over-read 30 of 30. The set has only 30 posts, and staff say s
 
 **Which diagnosis pointed at it:**
 
+**What I changed:** I added about 30 new `analysis` posts from r/IndianCricket to labels.csv (the only change in this unit). Taxonomy, label definitions, criteria and all training settings stayed the same.
+
+**Which diagnosis pointed at it:** Criterion 3 (`analysis` F1 ≥ 0.30) was MISSED with F1 0.00 on all three seeds, and the model never predicted `analysis`. I diagnosed too few examples (29 in the whole file, 5 in each test split), so adding examples to my thinnest label is the change that tests that diagnosis.
+
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
