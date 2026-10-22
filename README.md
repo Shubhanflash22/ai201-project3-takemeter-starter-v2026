@@ -224,15 +224,25 @@ Stretch feature: a second training run with roberta-base instead of distilbert-b
 | F1 — `label_one` |  |  |  |
 | F1 — `label_two` |  |  |  |
 
+| Measure | Baseline | Trained | Difference |
+|---|---|---|---|
+| Overall accuracy | 0.140 | 0.660 | +0.520 |
+| Macro F1 | 0.106 | 0.515 | +0.409 |
+| F1 — `analysis` | 0.196 | 0.000 | -0.196 |
+| F1 — `hot_take` | 0.000 | 0.690 | +0.690 |
+| F1 — `news_info` | 0.118 | 0.640 | +0.522 |
+| F1 — `reaction` | 0.111 | 0.732 | +0.621 |
+
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
+I expected the trained model to beat the baseline most on `reaction` and `hot_take`, because they are my biggest labels with the most training examples, and to stay weak on `analysis`, which has only 29 examples.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
      nothing — and that is a real finding, not a failure. Say it plainly. -->
 
-
+Fine-tuning added a lot: accuracy went from 0.140 to 0.660 and macro F1 from 0.106 to 0.515 on the same 50 posts. The baseline's accuracy is below the 0.25 you would expect from random guessing over four labels, so my four definitions alone did not let a general model do this task; it never got `hot_take` right (F1 0.000). The one place the baseline scored higher is `analysis` (0.196 against 0.000), but with only 5 test posts that is one or two posts, so I do not read much into it. It does show the trained model learned nothing for `analysis`, which has only 29 training examples. This is one seed's test split of 50 posts, so the numbers are indicative, not precise.
 
 ---
 
@@ -254,10 +264,12 @@ Stretch feature: a second training run with roberta-base instead of distilbert-b
 | 1. Overall accuracy | ≥ 0.60 | 0.66 | 0.60 | 0.58 | MISSED |
 | 2. `reaction`, `hot_take`, `news_info` each F1 | ≥ 0.50 each | 0.64 (lowest) | 0.58 (lowest) | 0.58 (lowest) | MET |
 | 3. `analysis` F1 | ≥ 0.30 | 0.00 | 0.00 | 0.00 | MISSED |
-| 4. Beats the baseline on accuracy | yes | yes (0.66 vs 0.16) | yes (0.60 vs 0.16*) | yes (0.58 vs 0.16*) | MET |
+| 4. Beats the baseline on accuracy | yes | yes (0.66 vs 0.14) | yes (0.60 vs 0.14*) | yes (0.58 vs 0.14*) | MET |
 | 5. Balance: largest label ≤ 40%, `analysis` ≥ 5% | 40% / 5% | 34.2% / 8.8% | 34.2% / 8.8% | 34.2% / 8.8% | MET |
 
-*The baseline was run once, on the seed-42 test split (accuracy 0.160). For seeds 7 and 2024 I compared against that same 0.160 and did not re-run the baseline on their different test splits. Criterion 5 is a property of labels.csv, so it is the same on every seed.
+*The baseline's accuracy is 0.140 on the seed-42 test split (an earlier run of the same script gave 0.160; the committed baseline_results.json holds this run). For seeds 7 and 2024 I compared against that same 0.140 and did not re-run the baseline on their different test splits. Criterion 5 is a property of labels.csv, so it is the same on every seed.
+
+
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.

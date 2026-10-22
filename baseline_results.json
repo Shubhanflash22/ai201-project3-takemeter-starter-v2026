@@ -6,8 +6,8 @@
   "used_definitions": true,
   "scores": {
     "n": 50,
-    "accuracy": 0.16,
-    "f1_macro": 0.13290118679050567,
+    "accuracy": 0.14,
+    "f1_macro": 0.10620915032679738,
     "per_label": {
       "analysis": {
         "precision": 0.10869565217391304,
@@ -22,15 +22,15 @@
         "support": 14
       },
       "news_info": {
-        "precision": 0.5,
+        "precision": 0.3333333333333333,
         "recall": 0.07142857142857142,
-        "f1": 0.125,
+        "f1": 0.11764705882352941,
         "support": 14
       },
       "reaction": {
         "precision": 1.0,
-        "recall": 0.11764705882352941,
-        "f1": 0.21052631578947367,
+        "recall": 0.058823529411764705,
+        "f1": 0.1111111111111111,
         "support": 17
       }
     }
@@ -47,7 +47,7 @@
       "predicted": "reaction"
     },
     {
-      "text": "Lord iyer.\r\n\r\nIyer is playing innings of 22(14), where as Naman dhir is hitting from the very first ball!! \r\n\r\nIt's done for someone \ud83e\udd40\ud83d\ude2d",
+      "text": "Lord iyer.\n\nIyer is playing innings of 22(14), where as Naman dhir is hitting from the very first ball!! \n\nIt's done for someone \ud83e\udd40\ud83d\ude2d",
       "gold": "reaction",
       "predicted": "analysis"
     },
@@ -57,7 +57,7 @@
       "predicted": "analysis"
     },
     {
-      "text": "Was Rahul Dravid the most selfish cricketer to play for India?\r\n\r\nYes\u2026 yessss. Rahul Dravid was the most selfish cricketer not only in India but in world also.  \r\nLet me give you some reason :  \r\n2001, Aus vs Ind : Aus gave follow on to India, In first Inning only Laxman played well so team asked Dravid to leave one down position and he accepeted because he did not want to come on one down right? Still he perfomed and scored near 180. Very selfish inning it was.  \r\n2003 world cup : Ganguly and team wanted to play with extra bowler but India has one wicket keeper in squad and that is Parthiv. Dravid said he wants to do wicket keeping because he wanted to do gain some complement and praise from team and fans. So he accepeted and did wicket keeping. What a selfish he is. Just to gain some praise..  \r\n2001 to retirement : Dravid started his carreer as a one down batsman. In 1999 world cup he was the highest scorer. But then Ganguly wanted Sehwag to open with Sachin and Ganguly was the partner and top order batsman. So Dravid came to number 4 from his favriote position, why because may be he is performing well at number 3 or may be he wanted to gain some praise again or may be he thought he w",
+      "text": "Was Rahul Dravid the most selfish cricketer to play for India?\n\nYes\u2026 yessss. Rahul Dravid was the most selfish cricketer not only in India but in world also.  \nLet me give you some reason :  \n2001, Aus vs Ind : Aus gave follow on to India, In first Inning only Laxman played well so team asked Dravid to leave one down position and he accepeted because he did not want to come on one down right? Still he perfomed and scored near 180. Very selfish inning it was.  \n2003 world cup : Ganguly and team wanted to play with extra bowler but India has one wicket keeper in squad and that is Parthiv. Dravid said he wants to do wicket keeping because he wanted to do gain some complement and praise from team and fans. So he accepeted and did wicket keeping. What a selfish he is. Just to gain some praise..  \n2001 to retirement : Dravid started his carreer as a one down batsman. In 1999 world cup he was the highest scorer. But then Ganguly wanted Sehwag to open with Sachin and Ganguly was the partner and top order batsman. So Dravid came to number 4 from his favriote position, why because may be he is performing well at number 3 or may be he wanted to gain some praise again or may be he thought he w",
       "gold": "analysis",
       "predicted": "analysis"
     },
@@ -72,7 +72,7 @@
       "predicted": "analysis"
     },
     {
-      "text": "A Special Pillow For Bumrah In Japan Gets Wife\u2019s Reaction\r\n\r\nJasprit Bumrah\u2019s Japan trip had an unexpected little highlight \u2014 he got a special pillow made for himself. \ud83c\uddef\ud83c\uddf5\ud83d\ude02\r\n\r\nBut the fun part was his wife Sanjana Ganesan\u2019s reaction to it.\r\n\r\nA simple travel moment, but definitely an entertaining one. What do you think of Bumrah\u2019s customized pillow? \ud83d\ude04",
+      "text": "A Special Pillow For Bumrah In Japan Gets Wife\u2019s Reaction\n\nJasprit Bumrah\u2019s Japan trip had an unexpected little highlight \u2014 he got a special pillow made for himself. \ud83c\uddef\ud83c\uddf5\ud83d\ude02\n\nBut the fun part was his wife Sanjana Ganesan\u2019s reaction to it.\n\nA simple travel moment, but definitely an entertaining one. What do you think of Bumrah\u2019s customized pillow? \ud83d\ude04",
       "gold": "news_info",
       "predicted": "analysis"
     },
@@ -92,12 +92,12 @@
       "predicted": "analysis"
     },
     {
-      "text": "Are we losing the charm of traditional venues in ICC finals?\r\n\r\nThere\u2019s been growing debate around ICC finals and major knockout matches frequently being hosted in Ahmedabad. While the Narendra Modi Stadium offers massive capacity and modern infrastructure, many fans argue that traditional cricketing cities like Mumbai, Kolkata, Chennai, and Bengaluru bring unmatched atmosphere, history, and crowd energy to marquee games.\r\n\r\nSome believe finals should rotate among legacy venues like Eden Gardens, Wankhede, and Chepauk to preserve cricketing heritage. Others counter that logistics, capacity, revenue potential, and facilities naturally make Ahmedabad a strong choice.\r\n\r\nIs this simply a commercial and infrastructure decision, or should ICC events prioritise legacy venues and atmosphere? Where do you think big finals truly belong? \ud83c\udfcf\r\n\r\nSC - https://x.com/i/status/2028148524446347688",
+      "text": "Are we losing the charm of traditional venues in ICC finals?\n\nThere\u2019s been growing debate around ICC finals and major knockout matches frequently being hosted in Ahmedabad. While the Narendra Modi Stadium offers massive capacity and modern infrastructure, many fans argue that traditional cricketing cities like Mumbai, Kolkata, Chennai, and Bengaluru bring unmatched atmosphere, history, and crowd energy to marquee games.\n\nSome believe finals should rotate among legacy venues like Eden Gardens, Wankhede, and Chepauk to preserve cricketing heritage. Others counter that logistics, capacity, revenue potential, and facilities naturally make Ahmedabad a strong choice.\n\nIs this simply a commercial and infrastructure decision, or should ICC events prioritise legacy venues and atmosphere? Where do you think big finals truly belong? \ud83c\udfcf\n\nSC - https://x.com/i/status/2028148524446347688",
       "gold": "hot_take",
       "predicted": "analysis"
     },
     {
-      "text": "Is bumrah , the greatest bowler of india ?\r\n\r\nOnly bowler in the history of cricket to achieve number icc ranking in all formats btw .",
+      "text": "Is bumrah , the greatest bowler of india ?\n\nOnly bowler in the history of cricket to achieve number icc ranking in all formats btw .",
       "gold": "analysis",
       "predicted": "analysis"
     },
@@ -107,7 +107,7 @@
       "predicted": "analysis"
     },
     {
-      "text": "What he need to do more to get ahead of Sachin?\r\n\r\nHonestly, look at him man, he is playing after 2 months and even at this age of 37,he looks like he is in prime. \r\n\r\nBut on the contrary rhe last few years of sachin were not this good, \r\n\r\nSo do you think he need 14 centuries to be equal to sachin Or why sachin is still greatest? \r\n\r\nPls share your opinions",
+      "text": "What he need to do more to get ahead of Sachin?\n\nHonestly, look at him man, he is playing after 2 months and even at this age of 37,he looks like he is in prime. \n\nBut on the contrary rhe last few years of sachin were not this good, \n\nSo do you think he need 14 centuries to be equal to sachin Or why sachin is still greatest? \n\nPls share your opinions",
       "gold": "analysis",
       "predicted": "analysis"
     },
@@ -122,12 +122,12 @@
       "predicted": "analysis"
     },
     {
-      "text": "Bhuvneshwar Kumar will be donning the Indian jersey tomorrow for the first time in 4 years. \ud83e\udd79\ud83c\uddee\ud83c\uddf3\r\n\r\nSame as title",
+      "text": "Bhuvneshwar Kumar will be donning the Indian jersey tomorrow for the first time in 4 years. \ud83e\udd79\ud83c\uddee\ud83c\uddf3\n\nSame as title",
       "gold": "news_info",
       "predicted": "analysis"
     },
     {
-      "text": "This man here is just too skilled and can walk into ICT middle order anyday\r\n\r\nAs a kkr fan, no Indian player playing down the middle has impressed me more than this dude right here . No drama, No PR, crazy acceleration, crazy player of spin ...  \r\nHe is so supportive, crazy good man manager... If India does not play him in their main 11, it's a bigger loss for India. Never been a fan of an Indian rcb player after Kohli .. This guy deserves it and pls don't come at me saying lyer, pls he is way better player than Iyer, lesser loopholes and definitely deserves the cap to feature ... He is just technically smarter and much bigger big match player and match winner ... He should also play ahead of tilak in the current ICT... I can't believe I have glazed an RCB player this much .... Goddd he is just too fuckin good",
+      "text": "This man here is just too skilled and can walk into ICT middle order anyday\n\nAs a kkr fan, no Indian player playing down the middle has impressed me more than this dude right here . No drama, No PR, crazy acceleration, crazy player of spin ...  \nHe is so supportive, crazy good man manager... If India does not play him in their main 11, it's a bigger loss for India. Never been a fan of an Indian rcb player after Kohli .. This guy deserves it and pls don't come at me saying lyer, pls he is way better player than Iyer, lesser loopholes and definitely deserves the cap to feature ... He is just technically smarter and much bigger big match player and match winner ... He should also play ahead of tilak in the current ICT... I can't believe I have glazed an RCB player this much .... Goddd he is just too fuckin good",
       "gold": "hot_take",
       "predicted": "analysis"
     },
@@ -137,7 +137,7 @@
       "predicted": "analysis"
     },
     {
-      "text": "Rinku in this KKR lineup\r\n\r\nBro just saved them from an absolute embarrassment. Rinku Singh doing Rinku Singh things",
+      "text": "Rinku in this KKR lineup\n\nBro just saved them from an absolute embarrassment. Rinku Singh doing Rinku Singh things",
       "gold": "news_info",
       "predicted": "analysis"
     },
@@ -147,7 +147,7 @@
       "predicted": "analysis"
     },
     {
-      "text": "Virat would have played as much Cricket as Sachin if not for BCCI\r\n\r\nSource: https://www.espncricinfo.com/records/most-matches-in-career-283489",
+      "text": "Virat would have played as much Cricket as Sachin if not for BCCI\n\nSource: https://www.espncricinfo.com/records/most-matches-in-career-283489",
       "gold": "analysis",
       "predicted": "analysis"
     },
@@ -162,9 +162,9 @@
       "predicted": "analysis"
     },
     {
-      "text": "Happy birthday D!!!!\r\n\r\n(sarcasm)",
+      "text": "Happy birthday D!!!!\n\n(sarcasm)",
       "gold": "reaction",
-      "predicted": "reaction"
+      "predicted": "analysis"
     },
     {
       "text": "Strongest Indian team in last 16 years",
@@ -172,7 +172,7 @@
       "predicted": "analysis"
     },
     {
-      "text": "Why Doesn't BCCI Consider Weather Forecasts Before Selecting Venues for Crucial Matches?\r\n\r\nIndia has so many cricket stadiums across the country, so why doesn't the BCCI properly consider weather forecasts before deciding match venues?\r\n\r\nI understand that weather forecasts aren't always 100% accurate, but surely they can check historical weather patterns and rain predictions before scheduling important matches.\r\n\r\nToday's IND vs WI decider getting washed out due to rain is really frustrating, especially for fans who were eagerly waiting for the match.\r\n\r\nWith so many stadiums available across India, shouldn't better planning be possible?\r\n\r\nWhat do you guys think?",
+      "text": "Why Doesn't BCCI Consider Weather Forecasts Before Selecting Venues for Crucial Matches?\n\nIndia has so many cricket stadiums across the country, so why doesn't the BCCI properly consider weather forecasts before deciding match venues?\n\nI understand that weather forecasts aren't always 100% accurate, but surely they can check historical weather patterns and rain predictions before scheduling important matches.\n\nToday's IND vs WI decider getting washed out due to rain is really frustrating, especially for fans who were eagerly waiting for the match.\n\nWith so many stadiums available across India, shouldn't better planning be possible?\n\nWhat do you guys think?",
       "gold": "hot_take",
       "predicted": "analysis"
     },
@@ -182,17 +182,17 @@
       "predicted": "analysis"
     },
     {
-      "text": "Yashasvi jaiswal!\r\n\r\nNot in t20 squad \r\n\r\nNot in odi squad \r\n\r\nNot even in squad for last 2 odi \r\n\r\nYashasvi jaiswal is currently in Indian cricket as a test specialist. No wonder why his focus is on wicket-keeping currently.",
+      "text": "Yashasvi jaiswal!\n\nNot in t20 squad \n\nNot in odi squad \n\nNot even in squad for last 2 odi \n\nYashasvi jaiswal is currently in Indian cricket as a test specialist. No wonder why his focus is on wicket-keeping currently.",
       "gold": "hot_take",
       "predicted": "analysis"
     },
     {
-      "text": "Dhoni played too long and damaged his reputation\r\n\r\nFrom 2007-2013 Dhoni was the hero of the Indian team. \r\n\r\nNow in 2026, he is a big villain. He is reportedly asking for 20% of CSK and he refuses to retire.",
+      "text": "Dhoni played too long and damaged his reputation\n\nFrom 2007-2013 Dhoni was the hero of the Indian team. \n\nNow in 2026, he is a big villain. He is reportedly asking for 20% of CSK and he refuses to retire.",
       "gold": "hot_take",
       "predicted": "analysis"
     },
     {
-      "text": "IT STILL HURTS \ud83d\udc94\ud83d\ude14.........\r\n\r\nIt would have been 3/3 easily",
+      "text": "IT STILL HURTS \ud83d\udc94\ud83d\ude14.........\n\nIt would have been 3/3 easily",
       "gold": "reaction",
       "predicted": "analysis"
     },
@@ -202,12 +202,12 @@
       "predicted": "analysis"
     },
     {
-      "text": "Arjun tendulkar\r\n\r\nHe is very shy and introverted. He should take off his fathers weight and just explore his game. \r\n\r\nSuch a nice gesture from shivam dube. People are getting too comfortable in online to troll someone easily.",
+      "text": "Arjun tendulkar\n\nHe is very shy and introverted. He should take off his fathers weight and just explore his game. \n\nSuch a nice gesture from shivam dube. People are getting too comfortable in online to troll someone easily.",
       "gold": "hot_take",
-      "predicted": "analysis"
+      "predicted": "news_info"
     },
     {
-      "text": "Gautam Gambhir on Jay Shah\r\n\r\nWow, how sweet of the ICC chairman to make a call only when India loses a home Test series (vs SA) and the BGT. No wonder there\u2019s so much hate from cricket fans around the world. Jay Shah leading the ICC is probably a really bad thing for international cricket.\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b",
+      "text": "Gautam Gambhir on Jay Shah\n\nWow, how sweet of the ICC chairman to make a call only when India loses a home Test series (vs SA) and the BGT. No wonder there\u2019s so much hate from cricket fans around the world. Jay Shah leading the ICC is probably a really bad thing for international cricket.\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b\u200b",
       "gold": "hot_take",
       "predicted": "analysis"
     },
@@ -217,12 +217,12 @@
       "predicted": "analysis"
     },
     {
-      "text": "What is even wrong with Shreyas Iyer?\r\n\r\nHow is Shreyas Iyer at his supposed peak even more inconsistent than Samson? Scoreboard merchants might hype this innings of his, but the truth is that he got 2 reprieves first from Hope and then Rutherford both in the same over..",
+      "text": "What is even wrong with Shreyas Iyer?\n\nHow is Shreyas Iyer at his supposed peak even more inconsistent than Samson? Scoreboard merchants might hype this innings of his, but the truth is that he got 2 reprieves first from Hope and then Rutherford both in the same over..",
       "gold": "hot_take",
       "predicted": "analysis"
     },
     {
-      "text": "Is this the time to trust abhishek\u2019s attacking game or opt for experience?\r\n\r\nWith reports suggesting Abhishek Sharma could be left out for the Zimbabwe game, the bigger debate isn\u2019t just about one match it\u2019s about team philosophy. Do you back a naturally aggressive young player through lean patches, or do you prioritise immediate results in every game? Abhishek\u2019s T20 approach is built on intent and high strike rate, but that also comes with risk and inconsistency. Against a team like Zimbabwe, is this the right time to experiment and show faith, or should India play it safe and go with experience?\r\n\r\nAlso, are we expecting IPL-level explosiveness too quickly at the international level? How many games should a young batter realistically get before we start questioning his spot? \r\n\r\nDrop your thoughts - back him, bench him, or tweak his role? Let\u2019s discuss.\r\n\r\nSC - https://x.com/i/status/2026892969056546943",
+      "text": "Is this the time to trust abhishek\u2019s attacking game or opt for experience?\n\nWith reports suggesting Abhishek Sharma could be left out for the Zimbabwe game, the bigger debate isn\u2019t just about one match it\u2019s about team philosophy. Do you back a naturally aggressive young player through lean patches, or do you prioritise immediate results in every game? Abhishek\u2019s T20 approach is built on intent and high strike rate, but that also comes with risk and inconsistency. Against a team like Zimbabwe, is this the right time to experiment and show faith, or should India play it safe and go with experience?\n\nAlso, are we expecting IPL-level explosiveness too quickly at the international level? How many games should a young batter realistically get before we start questioning his spot? \n\nDrop your thoughts - back him, bench him, or tweak his role? Let\u2019s discuss.\n\nSC - https://x.com/i/status/2026892969056546943",
       "gold": "hot_take",
       "predicted": "analysis"
     },
@@ -242,7 +242,7 @@
       "predicted": "analysis"
     },
     {
-      "text": "I made an Indian Cricket Stadium tierlist\r\n\r\nI'm going to do this by viewing quality for BCCI matches.   \r\nGoated: Wankhede (the vibes and the atmosphere amazing \ud83e\udd29), Mohali (the grass is so good + it has great camera angles, applies for both old and new \ud83d\ude0e), Dharamashala (the scenery is amazing and the groundwork has actually significantly improved \ud83d\ude0d), Chennai/Pune (The stands feel so modern and both their grass is really clean, reminds me of open Australian grounds \ud83d\ude01) \r\n\r\nAmazing: Ahmedabad (it is an architectural marvel and the 2026 t20wc victory has ended its 'panoti' status altho the lingering memory of 2023 still hurts \ud83e\udd72) \r\n\r\n   \r\nIconic: Eden Gardens (It is an amazing ground with a massive legacy but it is in need of a renovation + boundaries are way too small \ud83e\udee0), Chinaswammy (same critiques as eden gardens, it has the best drainage in the world which makes cancelled games here quite rare, the ground needs an expansion as such a low capacity is simply not enough for a tier 1 city like bangalore \ud83d\ude2b) and Jaipur (the stadium is amazing but it is beginning to show its age through wear and tear \ud83d\ude14) \r\n\r\nMid: Hyderabad and the other stadium (I think its indore or guwhati), they are ok I guess bu",
+      "text": "I made an Indian Cricket Stadium tierlist\n\nI'm going to do this by viewing quality for BCCI matches.   \nGoated: Wankhede (the vibes and the atmosphere amazing \ud83e\udd29), Mohali (the grass is so good + it has great camera angles, applies for both old and new \ud83d\ude0e), Dharamashala (the scenery is amazing and the groundwork has actually significantly improved \ud83d\ude0d), Chennai/Pune (The stands feel so modern and both their grass is really clean, reminds me of open Australian grounds \ud83d\ude01) \n\nAmazing: Ahmedabad (it is an architectural marvel and the 2026 t20wc victory has ended its 'panoti' status altho the lingering memory of 2023 still hurts \ud83e\udd72) \n\n   \nIconic: Eden Gardens (It is an amazing ground with a massive legacy but it is in need of a renovation + boundaries are way too small \ud83e\udee0), Chinaswammy (same critiques as eden gardens, it has the best drainage in the world which makes cancelled games here quite rare, the ground needs an expansion as such a low capacity is simply not enough for a tier 1 city like bangalore \ud83d\ude2b) and Jaipur (the stadium is amazing but it is beginning to show its age through wear and tear \ud83d\ude14) \n\nMid: Hyderabad and the other stadium (I think its indore or guwhati), they are ok I guess bu",
       "gold": "analysis",
       "predicted": "analysis"
     },
@@ -252,17 +252,17 @@
       "predicted": "analysis"
     },
     {
-      "text": "Stop ranaji tournament and all other domestic matches and start ipl for all format\r\n\r\nNone of the players are selected on the merit of the domestic cricket, players get chance if they are in the same ipl team as the captain, although that captian benches the player in ipl still they play in the indian team, so what's the point in spending \ud83d\udcb0 on domestic cricket ? Anyways they are not telecasted and generate 0 revenue !!",
+      "text": "Stop ranaji tournament and all other domestic matches and start ipl for all format\n\nNone of the players are selected on the merit of the domestic cricket, players get chance if they are in the same ipl team as the captain, although that captian benches the player in ipl still they play in the indian team, so what's the point in spending \ud83d\udcb0 on domestic cricket ? Anyways they are not telecasted and generate 0 revenue !!",
       "gold": "hot_take",
       "predicted": "analysis"
     },
     {
-      "text": "That Suryakumar Yadav catch still feels unreal\r\n\r\nEven after watching it multiple times, I still wonder how SKY pulled this off under that pressure! The timing, the awareness, and the presence of mind made this moment unforgettable.\r\n\r\nFor me, it was one of the defining moments of India's 2024 T20 World Cup final. \r\n\r\nWhat's your reaction when you watch this catch again?",
+      "text": "That Suryakumar Yadav catch still feels unreal\n\nEven after watching it multiple times, I still wonder how SKY pulled this off under that pressure! The timing, the awareness, and the presence of mind made this moment unforgettable.\n\nFor me, it was one of the defining moments of India's 2024 T20 World Cup final. \n\nWhat's your reaction when you watch this catch again?",
       "gold": "reaction",
       "predicted": "analysis"
     },
     {
-      "text": "Isko kehte hai bad luck kharab hona\r\n\r\nKahan chippe hai wo KL ke chaatu \ud83e\udee0",
+      "text": "Isko kehte hai bad luck kharab hona\n\nKahan chippe hai wo KL ke chaatu \ud83e\udee0",
       "gold": "reaction",
       "predicted": "analysis"
     },
@@ -277,12 +277,12 @@
       "predicted": "analysis"
     },
     {
-      "text": "The type of Stats pakistani see and call \"Baber the king\" without knowing the full truth behind them \ud83e\udd40\ud83e\udd37\r\n\r\nLol",
+      "text": "The type of Stats pakistani see and call \"Baber the king\" without knowing the full truth behind them \ud83e\udd40\ud83e\udd37\n\nLol",
       "gold": "hot_take",
       "predicted": "analysis"
     },
     {
-      "text": "Indian Team Announced for New Zealand Tour\r\n\r\nODI & Test Squad",
+      "text": "Indian Team Announced for New Zealand Tour\n\nODI & Test Squad",
       "gold": "news_info",
       "predicted": "analysis"
     }
