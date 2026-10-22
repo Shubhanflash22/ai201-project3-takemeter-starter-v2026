@@ -319,6 +319,12 @@ In my own words: the largest off-diagonal number is 5 real `news_info` posts cal
 | 4 |  |  |  |  |
 | 5 |  |  |  |  |
 
+| 1 | Overall accuracy | ≥ 0.60 on every seed | MISSED | Seeds gave 0.66, 0.60 and 0.58. Seed 2024 is below 0.60, so the target did not hold on all three. |
+| 2 | `reaction`, `hot_take`, `news_info` each F1 | ≥ 0.50 each, every seed | MET | The lowest of the three labels was 0.64 (seed 42), 0.58 (seed 7) and 0.58 (seed 2024), all above 0.50. |
+| 3 | `analysis` F1 | ≥ 0.30 on every seed | MISSED | F1 was 0.00 on all three seeds. The model never predicted `analysis` once. |
+| 4 | Beats the baseline on accuracy | yes, every seed | MET | 0.66, 0.60 and 0.58 against a baseline of 0.140. The baseline was only scored on the seed-42 split, so seeds 7 and 2024 are compared against that same number. |
+| 5 | Balance: largest label ≤ 40%, `analysis` ≥ 5% | 40% / 5% | MET | In labels.csv the largest label is `reaction` at 34.2% and `analysis` is 8.8%. |
+
 **Diagnoses**
 
 <!-- For each miss: the cause, and how you know. The four common causes are:
@@ -330,7 +336,9 @@ In my own words: the largest off-diagonal number is 5 real `news_info` posts cal
      have that can tell a LABELLING problem from a MODEL problem, and this
      section is graded on whether you used it that way. -->
 
+**Criterion 3 (`analysis` F1 ≥ 0.30): too few examples.** `analysis` has only 29 examples in labels.csv and 5 in each test split. In all three seeds its F1 was 0.00 and the model never predicted `analysis` at all (the `analysis` column of every confusion matrix is zeros). The real `analysis` posts went mostly to `hot_take` (3 of 5 on seed 42, 3 on seed 7, 4 on seed 2024) and the rest to `news_info` or `reaction`. The model never had enough examples to learn what separates a fact-backed argument from a plain opinion. My agreement report points away from a labeling problem on that boundary: I matched staff on all 30 posts, including the `analysis` vs `hot_take` rule, so I think I applied that rule consistently. The limits of that evidence are that it only covers the three staff labels and 30 posts, so I treat this as a data-size problem, not proven.
 
+**Criterion 1 (accuracy ≥ 0.60): two causes.** First, `analysis`: 5 of 50 test posts are `analysis` and none were right on any seed, so about 10 points of accuracy are lost before the other labels even count. Second, the model mixes up `news_info` and `reaction`: on seed 42, 5 real `news_info` posts were called `reaction` against 1 the other way, and on seeds 7 and 2024 `news_info`, `reaction` and `hot_take` also bled into each other (3 to 4 posts each). That looks like a genuinely hard label pair (neutral news and logistics posts versus short emotional fan posts), and a sign that my definition of `news_info` is the weakest one. The agreement report cannot tell me whether that boundary was labeled consistently, because the staff set has no `news_info` label. The spread across seeds was 0.58 to 0.66, which is 8 points, under the ten-point warning level, so the measure is reasonably stable. But with only 50 test posts one post is worth 2 points, so the 0.58 is partly noise.
 
 ---
 
