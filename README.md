@@ -316,12 +316,6 @@ In my own words: the largest off-diagonal number is 5 real `news_info` posts cal
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
-
 | 1 | Overall accuracy | ≥ 0.60 on every seed | MISSED | Seeds gave 0.66, 0.60 and 0.58. Seed 2024 is below 0.60, so the target did not hold on all three. |
 | 2 | `reaction`, `hot_take`, `news_info` each F1 | ≥ 0.50 each, every seed | MET | The lowest of the three labels was 0.64 (seed 42), 0.58 (seed 7) and 0.58 (seed 2024), all above 0.50. |
 | 3 | `analysis` F1 | ≥ 0.30 on every seed | MISSED | F1 was 0.00 on all three seeds. The model never predicted `analysis` once. |
@@ -412,9 +406,9 @@ I don’t want to over-read 30 of 30. The set has only 30 posts, and staff say s
 
 **Which diagnosis pointed at it:**
 
-**What I changed:** I added about 30 new `analysis` posts from r/IndianCricket to labels.csv (the only change in this unit). Taxonomy, label definitions, criteria and all training settings stayed the same.
+**What I changed:** I added about 37 new `analysis` posts from r/IndianCricket to labels.csv (the only change in this unit) taking `analysis` from 29 rows (8.8%) to 66 rows (18.0%) and the file from 330 to 367 rows. Taxonomy, label definitions, criteria and all training settings stayed the same.
 
-**Which diagnosis pointed at it:** Criterion 3 (`analysis` F1 ≥ 0.30) was MISSED with F1 0.00 on all three seeds, and the model never predicted `analysis`. I diagnosed too few examples (29 in the whole file, 5 in each test split), so adding examples to my thinnest label is the change that tests that diagnosis.
+**Which diagnosis pointed at it:** Criterion 3 (`analysis` F1 ≥ 0.30) was MISSED with F1 0.00 on all three seeds, and the model never predicted `analysis`. I diagnosed too few examples (29 rows in the whole file, 5 in each test split), so adding examples to my thinnest label is the change that tests that diagnosis.
 
 ### Run Log — After
 
