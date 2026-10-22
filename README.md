@@ -249,6 +249,15 @@ Stretch feature: a second training run with roberta-base instead of distilbert-b
 | 4.  |  |  |  |  |  |
 | 5.  |  |  |  |  |  |
 
+| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
+|---|---|---|---|---|---|
+| 1. Overall accuracy | ≥ 0.60 | 0.66 | 0.60 | 0.58 | MISSED |
+| 2. `reaction`, `hot_take`, `news_info` each F1 | ≥ 0.50 each | 0.64 (lowest) | 0.58 (lowest) | 0.58 (lowest) | MET |
+| 3. `analysis` F1 | ≥ 0.30 | 0.00 | 0.00 | 0.00 | MISSED |
+| 4. Beats the baseline on accuracy | yes | yes (0.66 vs 0.16) | yes (0.60 vs 0.16*) | yes (0.58 vs 0.16*) | MET |
+| 5. Balance: largest label ≤ 40%, `analysis` ≥ 5% | 40% / 5% | 34.2% / 8.8% | 34.2% / 8.8% | 34.2% / 8.8% | MET |
+
+*The baseline was run once, on the seed-42 test split (accuracy 0.160). For seeds 7 and 2024 I compared against that same 0.160 and did not re-run the baseline on their different test splits. Criterion 5 is a property of labels.csv, so it is the same on every seed.
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
@@ -265,7 +274,23 @@ Stretch feature: a second training run with roberta-base instead of distilbert-b
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
 
+| true \ predicted | analysis | hot_take | reaction | news_info |
+|---|---|---|---|---|
+| **analysis** | 0 | 3 | 0 | 2 |
+| **hot_take** | 0 | 10 | 4 | 0 |
+| **reaction** | 0 | 1 | 15 | 1 |
+| **news_info** | 0 | 1 | 5 | 8 |
 
+Biggest confusion: 5 real `news_info` posts called `reaction`.
+The other direction: 1 real `reaction` posts called `news_info`.
+
+That's lopsided — the model leans toward `reaction` on this pair.
+A direction like that usually points at your labelling rather than the
+model. Your agreement report is the thing that can tell you which.
+
+This is the seed-42 run. Rows are the true labels and columns are the model's guesses.
+
+In my own words: the largest off-diagonal number is 5 real `news_info` posts called `reaction`, against only 1 in the other direction, so the model did not learn to separate neutral news and logistics posts from emotional fan posts. The model also never predicted `analysis` (its column is all zeros): 3 of the 5 real `analysis` posts went to `hot_take` and 2 to `news_info`.
 
 ---
 
