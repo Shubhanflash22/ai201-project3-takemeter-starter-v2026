@@ -205,6 +205,9 @@ Stretch feature: a second training run with roberta-base instead of distilbert-b
 
 **Pre-labelling disclosure:** Claude pre-labeled 310 of the 330 rows in `labels.csv` from my four written definitions; those rows are marked "pre-labeled by AI" in the note column, and I read and corrected them. The other 20 rows (marked `cold`) are my own labels, made first with no AI help.
 
+**Unit 6 update:** For the improvement, Claude pre-labeled 150 candidate posts I collected from Reddit search pages, marking 37 as `analysis`. I read the marked posts and relabelled based on my understanding - around 35 were changed. Claude also wrote the helper script for the candidate search and merge (`analysis_candidates.py`).
+
+
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
      Don't fill these in during unit 5.
@@ -450,11 +453,18 @@ Three cautions. The "after" test splits are a different 56 posts, and one post i
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
+**Criterion 1 (accuracy ≥ 0.60): still MISSED after the change.** Accuracy was 0.61, 0.55 and 0.50 across seeds (0.66, 0.60, 0.58 before). What I would do next: tighten the `news_info` definition and relabel that boundary, because the agreement check could not test it (the staff set has no `news_info` label), and add more `hot_take` and `news_info` examples so the new `analysis` rows do not dominate. I stopped because this unit allows one improvement and the deadline is close.
+
+**Criterion 2 (each of `reaction`, `hot_take`, `news_info` F1 ≥ 0.50): MET before, MISSED after.** `hot_take` fell to 0.43 on seed 42 (7 of its 14 real posts were called `reaction`) and `news_info` fell to 0.43 on seed 7 (7 of its 15 real posts were called `reaction`). The change I made did not touch these labels, so I think adding `analysis` examples shifted what the model predicts for them. I would fix it with the same two steps as criterion 1, and re-run on the same test split so the comparison is fair. I stopped for the same reason.
+
+Criterion 3 (`analysis` F1 ≥ 0.30) was MISSED before and is MET after, so it is not broken any more.
 
 
 **The gap between what I meant my labels to capture and what the model
 learned:**
 <!-- Two sentences. Your confusion matrix is the evidence. -->
+
+I meant `hot_take` to be a general claim about the world and `news_info` to be a neutral report, but the model leans toward `reaction` for short informal posts: on the after run, seed 42, 7 of 14 real `hot_take` posts and 5 of 15 real `news_info` posts were called `reaction`. So it learned something closer to tone (short and casual against structured and numeric) than my distinctions of claim, report and feeling, and it probably learned `analysis` partly as "has many numbers", which is how I collected the new examples.
 
 
 
