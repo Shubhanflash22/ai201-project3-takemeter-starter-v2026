@@ -423,10 +423,24 @@ I don’t want to over-read 30 of 30. The set has only 30 posts, and staff say s
 | 4.  |  |  |  |  |  |
 | 5.  |  |  |  |  |  |
 
+| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
+|---|---|---|---|---|---|
+| 1. Overall accuracy | ≥ 0.60 | 0.61 | 0.55 | 0.50 | MISSED |
+| 2. `reaction`, `hot_take`, `news_info` each F1 | ≥ 0.50 each | 0.43 (lowest: `hot_take`) | 0.43 (lowest: `news_info`) | 0.48 (lowest: `hot_take`) | MISSED |
+| 3. `analysis` F1 | ≥ 0.30 | 0.74 | 0.67 | 0.44 | MET |
+| 4. Beats the baseline on accuracy | yes | yes (0.61 vs 0.14*) | yes (0.55 vs 0.14*) | yes (0.50 vs 0.14*) | MET |
+| 5. Balance: largest label ≤ 40%, `analysis` ≥ 5% | 40% / 5% | 30.8% / 18.0% | 30.8% / 18.0% | 30.8% / 18.0% | MET |
+
+*The baseline (0.140) was scored on the old 50-post test split and was not re-run on the new 56-post splits, so criterion 4 compares against that same number. The "after" test splits are different posts from the "before" ones, because 367 rows split differently from 330.
+
 **Did it help, and how do I know:**
 
 <!-- If it didn't, say so. Relabelling that didn't help is a genuinely
      interesting result and earns full credit. -->
+
+Partly. It fixed the label I diagnosed: `analysis` F1 went from 0.00 on all three seeds to 0.74, 0.67 and 0.44, so criterion 3 changed from MISSED to MET, and the model now actually predicts `analysis`. Macro F1 rose from 0.52/0.47/0.46 to 0.60/0.56/0.49. But accuracy fell from 0.66/0.60/0.58 to 0.61/0.55/0.50 (criterion 1 is still MISSED, now on two seeds instead of one), and criterion 2 went from MET to MISSED: `hot_take` dropped to 0.43 on seed 42 (7 of its 14 real posts were called `reaction`) and `news_info` to 0.43 on seed 7. So the change helped the target label and hurt others.
+
+Three cautions. The "after" test splits are a different 56 posts, and one post is worth about 2 points, so part of the drop may be noise. Accuracy now swings 10.7 points across seeds, above the ten-point level where the measure is unstable. And the 37 new `analysis` posts came from stat-keyword searches and are full of numbers, so the model may be partly learning "has many numbers" instead of "argues from a fact". I cannot tell the two apart from this run.
 
 
 
