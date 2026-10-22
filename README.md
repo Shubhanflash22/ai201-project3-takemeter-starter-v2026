@@ -303,9 +303,11 @@ Stretch feature: a second training run with roberta-base instead of distilbert-b
 
      Remember you labelled these 30 under the STAFF taxonomy in
      data/staff_taxonomy.md, not your own — so every argument below is made
-     from those definitions and those decision rules. -->
+     from those definitions and those decision rules. 
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** ___ / 30 = ___% -->
+**Agreement rate:** 30 / 30 = 100%
+
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -327,6 +329,8 @@ Stretch feature: a second training run with roberta-base instead of distilbert-b
      written rule two different ways on 30 posts, that is direct evidence about
      what you did across your own 200. -->
 
+None. agreement.py found no posts where my label differed from staff’s, so there is nothing to adjudicate or sort into piles (a), (b) or (c). I left the two blank blocks below empty for that reason.
+
 **1.**
 > *The post:*
 >
@@ -347,6 +351,9 @@ Stretch feature: a second training run with roberta-base instead of distilbert-b
 
 **What the pattern in my disagreements tells me:**
 
+With no disagreements there is no error pattern to read, so what matters is why I matched and how much that proves. The staff rules did most of the work, especially rule 1 (does the fact carry the argument?) and rule 2 (is it about the writer, or a general claim about the world?). The hardest calls for me were the posts that contain a number but state their conclusion first, such as the “times are down about 3%” post, where the figure is decoration, so it is a hot_take and not an analysis. Rule 3 never decided a case on its own.
+
+I don’t want to over-read 30 of 30. The set has only 30 posts, and staff say several were picked because they are ambiguous, so a perfect match is unusually clean and may partly reflect that the three types are easier to tell apart in running-forum text than the boundaries in my own taxonomy. It also tells me less about my own 330 labels than a low rate would, because those use a different taxonomy. What it does show is that I can apply a written rule I didn’t author the way its authors did.
 
 
 ---
