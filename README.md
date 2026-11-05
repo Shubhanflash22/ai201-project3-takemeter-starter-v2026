@@ -1,60 +1,16 @@
 # TakeMeter
 
-> ### 👋 Start here
->
-> **New to this repo? Read [RUNNING.md](RUNNING.md) first** — setup, the
-> notebook, the baseline, and what to do when something breaks.
->
-> Once `python test.py` passes:
->
-> ```bash
-> head -5 data/practice_labels.csv     # the shape your labels.csv needs
-> ```
->
-> Then open `takemeter.ipynb` **in this folder** — in VS Code, or with
-> `jupyter notebook` if you prefer. Pick the kernel: the `.venv` inside this
-> project. Run section 1, which reports the hardware you'll be training on.
-> Everything else waits until you have data.
->
-> Nothing to upload, nothing to connect, no accounts and no keys. The notebook
-> runs on your machine and writes next to your code.
->
-> **The rest of this file is your submission.** Fill it in as you go.
+Shubhan Mital - Project: TakeMeter
+
+**Stretch features:** (1) a fourth label, `news_info`; (2) a second training run with `roberta-base`; (3) a confidence check on the predictions. Each is written up in its own section below.
 
 ---
-
-<!-- ─────────────────────────────────────────────────────────────────────────
-     HOW TO USE THIS FILE
-
-     Unit 5 asks for the first five sections. Unit 6 adds the five below them.
-
-     Everything is pasted as TEXT. No screenshots, no images.
-
-     ⚠️ The confusion matrix especially. The notebook prints one as a markdown
-     table, ready to copy. A screenshot of a matrix earns nothing. Paste the
-     table.
-     ───────────────────────────────────────────────────────────────────────── -->
-
-<!-- ═══════════════════════ UNIT 5 — THE BUILD ═══════════════════════ -->
 
 ## What This Does
 
-<!-- Your community, and what your classifier sorts posts into. Three or four
-     sentences. -->
-
 TakeMeter sorts posts from r/IndianCricket, a large public Indian cricket fan community, into four types: `analysis`, `hot_take`, `reaction` and `news_info`. The community mixes stat-backed arguments, confident opinions, in-the-moment fan reactions and plain news or match logistics, and regulars can usually tell which is which within a sentence. I fine-tuned `distilbert-base-uncased` on 330 posts I labeled so it can sort new posts the same way.
 
-
-
----
-
 ## Label Taxonomy
-
-<!-- Each label: a one-sentence definition and two real examples from your
-     reading. Then your decision rule for the hardest boundary.
-
-     The decision rule is worth a point on its own and it's the thing most
-     people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
 ### `analysis`
 
@@ -100,27 +56,13 @@ TakeMeter sorts posts from r/IndianCricket, a large public Indian cricket fan co
 
 **Which two labels:** `analysis` and `hot_take`.
 
-**The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
-
-If a specific, checkable fact (a stat, record, date, figure or quote) carries the argument, the post is `analysis`, even if the tone is heated. A vague quantifier such as "almost all" or "everyone", or a fact that only decorates an opinion already stated, does not count, so the post is `hot_take`. A second rule I used with it: if a post states an opinion at all, it is never `news_info`.
-
-
-
----
+**The decision rule I used every time:** If a specific, checkable fact (a stat, record, date, figure or quote) carries the argument, the post is `analysis`, even if the tone is heated. A vague quantifier such as "almost all" or "everyone", or a fact that only decorates an opinion already stated, does not count, so the post is `hot_take`. A second rule I used with it: if a post states an opinion at all, it is never `news_info`.
 
 ## The Dataset
 
-<!-- Where you collected from, how you labelled, your counts, and three hard
-     cases. -->
+**Where the posts came from:** r/IndianCricket, a public subreddit. Reddit blocked scripted access, so I saved the public listings (hot, new, top of the year, top of the month, controversial of the year) as JSON from my browser and converted them to CSV with a short script (`json_to_csv.py`), keeping the title plus any body text. That gave 350 posts. After cleaning (HTML entities, duplicates, "content not supported" stubs) 346 remained, and 330 are in `labels.csv`. The 16 left out fit none of my four labels (for example empty prompts like "What's your thought on this?" and off-topic venting).
 
-**Where the posts came from:** r/IndianCricket, a public subreddit. Reddit blocked scripted access, so I saved the public listings (hot, new, top of the year, top of the month, controversial of the year) as JSON from my browser and converted them to CSV with a short script (`json_to_csv.py`), keeping the title plus any body text. That gave 350 posts; after cleaning (HTML entities, duplicates, "content not supported" stubs) 346 remained, and 330 are in `labels.csv`. The 16 left out fit none of my four labels (for example empty prompts like "What's your thought on this?" and off-topic venting).
-
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
-
-I labeled 20 posts cold first (a random sample, no tools and no AI, marked `cold` in the note column). The other 310 were pre-labeled by Claude and checked by me from my written definitions and marked "pre-labeled" in the note column; the rows it was least sure of were also marked "(uncertain)". I then read and corrected the pre-labeled rows. The final file is one unsplit `labels.csv` with text, label and note columns.
+**How I labeled them:** I labeled 20 posts cold first (a random sample, no tools and no AI, marked `cold` in the note column). The other 310 were pre-labeled by Claude and checked by me from my written definitions, and marked "pre-labeled" in the note column. The rows it was least sure of were also marked "(uncertain)". I then read and corrected the pre-labeled rows. The final file is one unsplit `labels.csv` with text, label and note columns.
 
 **Counts per label:**
 
@@ -133,9 +75,6 @@ I labeled 20 posts cold first (a random sample, no tools and no AI, marked `cold
 | **Total** | 330 | 100% |
 
 **Three hard cases**
-
-<!-- Any post that made you pause: what it was, which two labels it could have
-     been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
 > *The post:* GG's North zone favoritism is ruining golden period of Indian cricket. Maybe I am wrong here, but GG seems to have extra preference for North Indians. Among nearly 10 debuts across various formats under GG, Almost all of them are from Hindi belt of North Ind…
@@ -158,136 +97,61 @@ I labeled 20 posts cold first (a random sample, no tools and no AI, marked `cold
 >
 > *I chose, because:* `analysis`. The opening claim is extreme and unsupported, but it goes on to name specific matches and events as its reasons, so checkable facts carry the argument. It was a close call and I could see it labeled `hot_take`.
 
----
-
 ## The Training Run
-
-<!-- Your starting model, your settings, and anything you changed and why. -->
 
 **Base model:** `distilbert-base-uncased`.
 
-**Settings:** <!-- epochs, learning rate, batch size, seed --> 3 epochs, learning rate 2e-5, batch size 16, max length 128 tokens, seed 42. Trained on CPU (torch 2.14.1+cpu), no GPU.
+**Settings:** 3 epochs, learning rate 2e-5, batch size 16, max length 128 tokens, seed 42. Trained on CPU (torch 2.14.1+cpu), no GPU.
 
 **Anything I changed from the defaults, and why:** Nothing. I used all the default settings.
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+**Split sizes:** train 230 · val 50 · test 50 (stratified 70/15/15 of the 330 rows). Test split per label: `reaction` 17, `hot_take` 14, `news_info` 14, `analysis` 5. `analysis` has only 5 examples in the test split (fewer than about 8), so its F1 will swing a lot between seeds.
 
-train 230 · val 50 · test 50 (stratified 70/15/15 of the 330 rows). Test split per label: `reaction` 17, `hot_take` 14, `news_info` 14, `analysis` 5. `analysis` has only 5 examples in the test split (fewer than about 8), so its F1 will swing a lot between seeds in unit 6.
+### Stretch: a fourth label
 
-Stretch feature: a fourth label. I added news_info as a fourth label because r/IndianCricket has many news headlines, match threads and squad-announcement posts that fit none of my three opinion labels (analysis, hot_take, reaction). Without it I would have had to leave about 28.8% of the posts out or force them into the wrong label.
+I added `news_info` as a fourth label because r/IndianCricket has many news headlines, match threads and squad-announcement posts that fit none of my three opinion labels (`analysis`, `hot_take`, `reaction`). Without it I would have had to leave about 28.8% of the posts out or force them into the wrong label.
 
-Stretch feature: a second training run with roberta-base instead of distilbert-base-uncased, using seed 42, 5 epochs and learning rate 8e-6 (so three settings differed from the main run, not only the model). Results on the same 50-post test split: DistilBERT accuracy 0.660 / macro F1 0.515; RoBERTa accuracy 0.340 / macro F1 0.127. What moved: RoBERTa collapsed to predicting reaction for almost every post. Accuracy 0.340 is exactly the share of reaction in the test split (17 of 50), and reaction was the only label with a nonzero F1 (0.507). Validation loss was still falling at epoch 5 (1.22, against about 1.39 for random guessing over four labels), so at this learning rate the model was undertrained, not shown to be worse. An earlier attempt at learning rate 8e-4 also collapsed (same 0.340 / 0.127), so RoBERTa failed at both a rate far too high and one too low, and I have not yet tested it at the default 2e-5. This run does not show RoBERTa is worse than DistilBERT, because the settings differed. I plan to rerun it properly in unit 6.
+### Stretch: a second training run with `roberta-base`
 
----
+I trained `roberta-base` instead of `distilbert-base-uncased` with seed 42, 5 epochs and learning rate 8e-6, so three settings differed from the main run, not only the model. Results on the same 50-post test split:
 
-## How I Used AI
+| Model | Accuracy | Macro F1 |
+|---|---|---|
+| DistilBERT | 0.660 | 0.515 |
+| RoBERTa | 0.340 | 0.127 |
 
-<!-- Two specific moments — what you asked, what came back, what you changed.
-
-     ⚠️ Plus disclosure of any pre-labelling. If you had a model pre-label a
-     batch and then read and corrected every one, say that. It's an allowed
-     workflow and disclosing it costs you nothing. Not disclosing it is the
-     problem. -->
-
-**Moment 1**
-
-- *What I asked for:* I gave Claude my 350 collected posts and asked what distinctions it could see in the actual text.
-- *What came back:* Five types of post (short emotional reactions, confident claims with no support, arguments backed by a specific fact, questions and debate prompts, and news or match logistics) and a draft three-label set, with a note that news and match threads fit none of the three.
-- *What I changed:* I added a fourth label, `news_info`, instead of filtering those posts out, and kept the `analysis` vs `hot_take` decision rule as my own.
-
-**Moment 2**
-
-- *What I asked for:* I asked Claude for a Python script to collect r/IndianCricket posts into a CSV.
-- *What came back:* A scraper that called Reddit's public JSON endpoints. It failed on my machine with 403 "Blocked" errors on every listing and saved 0 posts.
-- *What I changed:* I switched approach: I saved the same listings as JSON from my browser and had a second script (`json_to_csv.py`) convert them to the text, label, note CSV.
-
-**Pre-labelling disclosure:** Claude pre-labeled 310 of the 330 rows in `labels.csv` from my four written definitions; those rows are marked "pre-labeled by AI" in the note column, and I read and corrected them. The other 20 rows (marked `cold`) are my own labels, made first with no AI help.
-
-**Unit 6 update:** For the improvement, Claude pre-labeled 150 candidate posts I collected from Reddit search pages, marking 37 as `analysis`. I read the marked posts and relabelled based on my understanding - around 35 were changed. Claude also wrote the helper script for the candidate search and merge (`analysis_candidates.py`).
-
-
-<!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
-
-     Don't fill these in during unit 5.
-     ═══════════════════════════════════════════════════════════════════ -->
-
----
+RoBERTa collapsed to predicting `reaction` for almost every post. Accuracy 0.340 is exactly the share of `reaction` in the test split (17 of 50), and `reaction` was the only label with a nonzero F1 (0.507). Validation loss was still falling at epoch 5 (1.22, against about 1.39 for random guessing over four labels), so at this learning rate the model was undertrained, not shown to be worse. An earlier attempt at learning rate 8e-4 also collapsed (same 0.340 / 0.127), so RoBERTa failed at both a rate far too high and one too low, and I have not yet tested it at the default 2e-5. This run does not show RoBERTa is worse than DistilBERT, because the settings differed. A fair comparison needs a rerun at 2e-5.
 
 ## Baseline vs. Trained
-
-<!-- Both models on the same posts. `python baseline.py --trained results.json`
-     prints this table for you. -->
-
-| Measure | Baseline | Trained | Difference |
-|---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
 | Overall accuracy | 0.140 | 0.660 | +0.520 |
 | Macro F1 | 0.106 | 0.515 | +0.409 |
-| F1 — `analysis` | 0.196 | 0.000 | -0.196 |
-| F1 — `hot_take` | 0.000 | 0.690 | +0.690 |
-| F1 — `news_info` | 0.118 | 0.640 | +0.522 |
-| F1 — `reaction` | 0.111 | 0.732 | +0.621 |
+| F1: `analysis` | 0.196 | 0.000 | -0.196 |
+| F1: `hot_take` | 0.000 | 0.690 | +0.690 |
+| F1: `news_info` | 0.118 | 0.640 | +0.522 |
+| F1: `reaction` | 0.111 | 0.732 | +0.621 |
 
-**What I predicted before I looked:**
-<!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
-     prediction made afterwards isn't one. -->
-I expected the trained model to beat the baseline most on `reaction` and `hot_take`, because they are my biggest labels with the most training examples, and to stay weak on `analysis`, which has only 29 examples.
+**What I predicted before I looked:** I expected the trained model to beat the baseline most on `reaction` and `hot_take`, because they are my biggest labels with the most training examples, and to stay weak on `analysis`, which has only 29 examples.
 
-**What the gap actually means:**
-<!-- If the baseline matched your trained model, your fine-tuning added
-     nothing — and that is a real finding, not a failure. Say it plainly. -->
+**What the gap actually means:** Fine-tuning added a lot: accuracy went from 0.140 to 0.660 and macro F1 from 0.106 to 0.515 on the same 50 posts. The baseline's accuracy is below the 0.25 expected from random guessing over four labels, so my four definitions alone did not let a general model do this task; it never got `hot_take` right (F1 0.000). The one place the baseline scored higher is `analysis` (0.196 against 0.000), but with only 5 test posts that is one or two posts, so I do not read much into it. It does show the trained model learned nothing for `analysis`, which has only 29 training examples. This is one seed's test split of 50 posts, so the numbers are indicative, not precise.
 
-Fine-tuning added a lot: accuracy went from 0.140 to 0.660 and macro F1 from 0.106 to 0.515 on the same 50 posts. The baseline's accuracy is below the 0.25 you would expect from random guessing over four labels, so my four definitions alone did not let a general model do this task; it never got `hot_take` right (F1 0.000). The one place the baseline scored higher is `analysis` (0.196 against 0.000), but with only 5 test posts that is one or two posts, so I do not read much into it. It does show the trained model learned nothing for `analysis`, which has only 29 training examples. This is one seed's test split of 50 posts, so the numbers are indicative, not precise.
-
----
-
-## Run Log — Before
-
-<!-- Five criteria across three seeds. The notebook's section 6 prints the
-     spread table; the Target and Verdict columns are yours. -->
-
-| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
-|---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+## Run Log - Before
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
 | 1. Overall accuracy | ≥ 0.60 | 0.66 | 0.60 | 0.58 | MISSED |
 | 2. `reaction`, `hot_take`, `news_info` each F1 | ≥ 0.50 each | 0.64 (lowest) | 0.58 (lowest) | 0.58 (lowest) | MET |
 | 3. `analysis` F1 | ≥ 0.30 | 0.00 | 0.00 | 0.00 | MISSED |
-| 4. Beats the baseline on accuracy | yes | yes (0.66 vs 0.14) | yes (0.60 vs 0.14*) | yes (0.58 vs 0.14*) | MET |
+| 4. Beats the baseline on accuracy | yes | yes (0.66 vs 0.14) | yes (0.60 vs 0.14\*) | yes (0.58 vs 0.14\*) | MET |
 | 5. Balance: largest label ≤ 40%, `analysis` ≥ 5% | 40% / 5% | 34.2% / 8.8% | 34.2% / 8.8% | 34.2% / 8.8% | MET |
 
-*The baseline's accuracy is 0.140 on the seed-42 test split (an earlier run of the same script gave 0.160; the committed baseline_results.json holds this run). For seeds 7 and 2024 I compared against that same 0.140 and did not re-run the baseline on their different test splits. Criterion 5 is a property of labels.csv, so it is the same on every seed.
-
+\*The baseline's accuracy is 0.140 on the seed-42 test split (an earlier run of the same script gave 0.160; the committed `baseline_results.json` holds this run). For seeds 7 and 2024 I compared against that same 0.140 and did not re-run the baseline on their different test splits. Criterion 5 is a property of `labels.csv`, so it is the same on every seed.
 
 ### Confusion matrix
 
-<!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
-     An image of a matrix earns nothing. -->
-
-| true \ predicted |  |  |  |
-|---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
-
-**My biggest off-diagonal number, and what it means:**
-<!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
-     direction. "7 real analysis posts were called hot_take and only 3 went the
-     other way" is a direction, not just an error rate. -->
+This is the seed-42 run. Rows are the true labels and columns are the model's guesses.
 
 | true \ predicted | analysis | hot_take | reaction | news_info |
 |---|---|---|---|---|
@@ -296,23 +160,9 @@ Fine-tuning added a lot: accuracy went from 0.140 to 0.660 and macro F1 from 0.1
 | **reaction** | 0 | 1 | 15 | 1 |
 | **news_info** | 0 | 1 | 5 | 8 |
 
-Biggest confusion: 5 real `news_info` posts called `reaction`.
-The other direction: 1 real `reaction` posts called `news_info`.
+**My biggest off-diagonal number, and what it means:** The largest off-diagonal number is 5 real `news_info` posts called `reaction`, against only 1 real `reaction` post called `news_info`. The model leans toward `reaction` on this pair, so it did not learn to separate neutral news and logistics posts from emotional fan posts. The model also never predicted `analysis` (its column is all zeros): 3 of the 5 real `analysis` posts went to `hot_take` and 2 to `news_info`.
 
-That's lopsided — the model leans toward `reaction` on this pair.
-A direction like that usually points at your labelling rather than the
-model. Your agreement report is the thing that can tell you which.
-
-This is the seed-42 run. Rows are the true labels and columns are the model's guesses.
-
-In my own words: the largest off-diagonal number is 5 real `news_info` posts called `reaction`, against only 1 in the other direction, so the model did not learn to separate neutral news and logistics posts from emotional fan posts. The model also never predicted `analysis` (its column is all zeros): 3 of the 5 real `analysis` posts went to `hot_take` and 2 to `news_info`.
-
----
-
-## Verdicts and Diagnoses
-
-<!-- MET or MISSED against LAST UNIT's target. The target has to hold across
-     all three seeds, not turn up sometimes. -->
+## Verdicts
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
@@ -320,182 +170,81 @@ In my own words: the largest off-diagonal number is 5 real `news_info` posts cal
 | 2 | `reaction`, `hot_take`, `news_info` each F1 | ≥ 0.50 each, every seed | MET | The lowest of the three labels was 0.64 (seed 42), 0.58 (seed 7) and 0.58 (seed 2024), all above 0.50. |
 | 3 | `analysis` F1 | ≥ 0.30 on every seed | MISSED | F1 was 0.00 on all three seeds. The model never predicted `analysis` once. |
 | 4 | Beats the baseline on accuracy | yes, every seed | MET | 0.66, 0.60 and 0.58 against a baseline of 0.140. The baseline was only scored on the seed-42 split, so seeds 7 and 2024 are compared against that same number. |
-| 5 | Balance: largest label ≤ 40%, `analysis` ≥ 5% | 40% / 5% | MET | In labels.csv the largest label is `reaction` at 34.2% and `analysis` is 8.8%. |
+| 5 | Balance: largest label ≤ 40%, `analysis` ≥ 5% | 40% / 5% | MET | In `labels.csv` the largest label is `reaction` at 34.2% and `analysis` is 8.8%. |
 
-**Diagnoses**
+## Diagnoses
 
-<!-- For each miss: the cause, and how you know. The four common causes are:
-     too few examples for a label, a boundary you applied inconsistently, a
-     genuinely hard label pair, and a task the model can't reach from this
-     much data.
-
-     ⚠️ Use your agreement report as evidence. It is the only instrument you
-     have that can tell a LABELLING problem from a MODEL problem, and this
-     section is graded on whether you used it that way. -->
-
-**Criterion 3 (`analysis` F1 ≥ 0.30): too few examples.** `analysis` has only 29 examples in labels.csv and 5 in each test split. In all three seeds its F1 was 0.00 and the model never predicted `analysis` at all (the `analysis` column of every confusion matrix is zeros). The real `analysis` posts went mostly to `hot_take` (3 of 5 on seed 42, 3 on seed 7, 4 on seed 2024) and the rest to `news_info` or `reaction`. The model never had enough examples to learn what separates a fact-backed argument from a plain opinion. My agreement report points away from a labeling problem on that boundary: I matched staff on all 30 posts, including the `analysis` vs `hot_take` rule, so I think I applied that rule consistently. The limits of that evidence are that it only covers the three staff labels and 30 posts, so I treat this as a data-size problem, not proven.
+**Criterion 3 (`analysis` F1 ≥ 0.30): too few examples.** `analysis` has only 29 examples in `labels.csv` and 5 in each test split. In all three seeds its F1 was 0.00 and the model never predicted `analysis` at all (the `analysis` column of every confusion matrix is zeros). The real `analysis` posts went mostly to `hot_take` (3 of 5 on seed 42, 3 on seed 7, 4 on seed 2024) and the rest to `news_info` or `reaction`. The model never had enough examples to learn what separates a fact-backed argument from a plain opinion. My agreement report points away from a labeling problem on that boundary: I matched staff on all 30 posts, including the `analysis` vs `hot_take` rule, so I think I applied that rule consistently. The limits of that evidence are that it only covers the three staff labels and 30 posts, so I treat this as a data-size problem, not proven.
 
 **Criterion 1 (accuracy ≥ 0.60): two causes.** First, `analysis`: 5 of 50 test posts are `analysis` and none were right on any seed, so about 10 points of accuracy are lost before the other labels even count. Second, the model mixes up `news_info` and `reaction`: on seed 42, 5 real `news_info` posts were called `reaction` against 1 the other way, and on seeds 7 and 2024 `news_info`, `reaction` and `hot_take` also bled into each other (3 to 4 posts each). That looks like a genuinely hard label pair (neutral news and logistics posts versus short emotional fan posts), and a sign that my definition of `news_info` is the weakest one. The agreement report cannot tell me whether that boundary was labeled consistently, because the staff set has no `news_info` label. The spread across seeds was 0.58 to 0.66, which is 8 points, under the ten-point warning level, so the measure is reasonably stable. But with only 50 test posts one post is worth 2 points, so the 0.58 is partly noise.
 
----
-
 ## Agreement Report
 
-<!-- Your rate against the staff set, and every disagreement adjudicated.
-
-     Remember you labelled these 30 under the STAFF taxonomy in
-     data/staff_taxonomy.md, not your own — so every argument below is made
-     from those definitions and those decision rules. 
-
-**Agreement rate:** ___ / 30 = ___% -->
 **Agreement rate:** 30 / 30 = 100%
 
+**Disagreements:** None. `agreement.py` found no posts where my label differed from staff's, so there is nothing to adjudicate or sort into piles (a), (b) or (c).
 
-<!-- Nobody grades this number. A 60% who argues every disagreement from the
-     stated rules beats a 95% who wrote "staff was right" nine times. Several
-     of the 30 were chosen because they're genuinely ambiguous — you should be
-     winning some of these. -->
+**What the pattern in my disagreements tells me:** With no disagreements there is no error pattern to read, so what matters is why I matched and how much that proves. The staff rules did most of the work, especially rule 1 (does the fact carry the argument?) and rule 2 (is it about the writer, or a general claim about the world?). The hardest calls for me were the posts that contain a number but state their conclusion first, such as the "times are down about 3%" post, where the figure is decoration, so it is a `hot_take` and not an `analysis`. Rule 3 never decided a case on its own.
 
-**Disagreements**
-
-<!-- Three lines each: the post, both labels, and who you think is right and
-     why — grounded in the staff definitions you were both applying.
-
-     Then sort each into one of three piles:
-       (a) the rule covered it and I applied it loosely → a consistency problem
-       (b) the rule genuinely doesn't say               → a gap in the definitions
-       (c) the rule is ambiguous here and my reading is defensible → argue it.
-           This is a legitimate win.
-
-     Pile (a) is the one that matters most for your diagnosis: if you applied a
-     written rule two different ways on 30 posts, that is direct evidence about
-     what you did across your own 200. -->
-
-None. agreement.py found no posts where my label differed from staff’s, so there is nothing to adjudicate or sort into piles (a), (b) or (c). I left the two blank blocks below empty for that reason.
-
-**1.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
-**2.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
-**What the pattern in my disagreements tells me:**
-
-With no disagreements there is no error pattern to read, so what matters is why I matched and how much that proves. The staff rules did most of the work, especially rule 1 (does the fact carry the argument?) and rule 2 (is it about the writer, or a general claim about the world?). The hardest calls for me were the posts that contain a number but state their conclusion first, such as the “times are down about 3%” post, where the figure is decoration, so it is a hot_take and not an analysis. Rule 3 never decided a case on its own.
-
-I don’t want to over-read 30 of 30. The set has only 30 posts, and staff say several were picked because they are ambiguous, so a perfect match is unusually clean and may partly reflect that the three types are easier to tell apart in running-forum text than the boundaries in my own taxonomy. It also tells me less about my own 330 labels than a low rate would, because those use a different taxonomy. What it does show is that I can apply a written rule I didn’t author the way its authors did.
-
-
----
+I don't want to over-read 30 of 30. The set has only 30 posts, and staff say several were picked because they are ambiguous, so a perfect match is unusually clean and may partly reflect that the three types are easier to tell apart in running-forum text than the boundaries in my own taxonomy. It also tells me less about my own 330 labels than a low rate would, because those use a different taxonomy. What it does show is that I can apply a written rule I didn't author the way its authors did.
 
 ## The Improvement
 
-**What I changed:**
-
-**Which diagnosis pointed at it:**
-
-**What I changed:** I added about 37 new `analysis` posts from r/IndianCricket to labels.csv (the only change in this unit) taking `analysis` from 29 rows (8.8%) to 66 rows (18.0%) and the file from 330 to 367 rows. Taxonomy, label definitions, criteria and all training settings stayed the same.
+**What I changed:** I added about 37 new `analysis` posts from r/IndianCricket to `labels.csv` (the only change), taking `analysis` from 29 rows (8.8%) to 66 rows (18.0%) and the file from 330 to 367 rows. Taxonomy, label definitions, criteria and all training settings stayed the same.
 
 **Which diagnosis pointed at it:** Criterion 3 (`analysis` F1 ≥ 0.30) was MISSED with F1 0.00 on all three seeds, and the model never predicted `analysis`. I diagnosed too few examples (29 rows in the whole file, 5 in each test split), so adding examples to my thinnest label is the change that tests that diagnosis.
 
-### Run Log — After
-
-| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
-|---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+## Run Log - After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
 | 1. Overall accuracy | ≥ 0.60 | 0.61 | 0.55 | 0.50 | MISSED |
 | 2. `reaction`, `hot_take`, `news_info` each F1 | ≥ 0.50 each | 0.43 (lowest: `hot_take`) | 0.43 (lowest: `news_info`) | 0.48 (lowest: `hot_take`) | MISSED |
 | 3. `analysis` F1 | ≥ 0.30 | 0.74 | 0.67 | 0.44 | MET |
-| 4. Beats the baseline on accuracy | yes | yes (0.61 vs 0.14*) | yes (0.55 vs 0.14*) | yes (0.50 vs 0.14*) | MET |
+| 4. Beats the baseline on accuracy | yes | yes (0.61 vs 0.14\*) | yes (0.55 vs 0.14\*) | yes (0.50 vs 0.14\*) | MET |
 | 5. Balance: largest label ≤ 40%, `analysis` ≥ 5% | 40% / 5% | 30.8% / 18.0% | 30.8% / 18.0% | 30.8% / 18.0% | MET |
 
-*The baseline (0.140) was scored on the old 50-post test split and was not re-run on the new 56-post splits, so criterion 4 compares against that same number. The "after" test splits are different posts from the "before" ones, because 367 rows split differently from 330.
+\*The baseline (0.140) was scored on the old 50-post test split and was not re-run on the new 56-post splits, so criterion 4 compares against that same number. The "after" test splits are different posts from the "before" ones, because 367 rows split differently from 330.
 
-**Did it help, and how do I know:**
-
-<!-- If it didn't, say so. Relabelling that didn't help is a genuinely
-     interesting result and earns full credit. -->
-
-Partly. It fixed the label I diagnosed: `analysis` F1 went from 0.00 on all three seeds to 0.74, 0.67 and 0.44, so criterion 3 changed from MISSED to MET, and the model now actually predicts `analysis`. Macro F1 rose from 0.52/0.47/0.46 to 0.60/0.56/0.49. But accuracy fell from 0.66/0.60/0.58 to 0.61/0.55/0.50 (criterion 1 is still MISSED, now on two seeds instead of one), and criterion 2 went from MET to MISSED: `hot_take` dropped to 0.43 on seed 42 (7 of its 14 real posts were called `reaction`) and `news_info` to 0.43 on seed 7. So the change helped the target label and hurt others.
+**Did it help, and how do I know:** Partly. It fixed the label I diagnosed: `analysis` F1 went from 0.00 on all three seeds to 0.74, 0.67 and 0.44, so criterion 3 changed from MISSED to MET, and the model now actually predicts `analysis`. Macro F1 rose from 0.52/0.47/0.46 to 0.60/0.56/0.49. But accuracy fell from 0.66/0.60/0.58 to 0.61/0.55/0.50 (criterion 1 is still MISSED, now on two seeds instead of one), and criterion 2 went from MET to MISSED: `hot_take` dropped to 0.43 on seed 42 (7 of its 14 real posts were called `reaction`) and `news_info` to 0.43 on seed 7. So the change helped the target label and hurt others.
 
 Three cautions. The "after" test splits are a different 56 posts, and one post is worth about 2 points, so part of the drop may be noise. Accuracy now swings 10.7 points across seeds, above the ten-point level where the measure is unstable. And the 37 new `analysis` posts came from stat-keyword searches and are full of numbers, so the model may be partly learning "has many numbers" instead of "argues from a fact". I cannot tell the two apart from this run.
 
+### Stretch: confidence check
 
-
----
+The most-confident third of predictions was right more often than the least-confident third on every seed, both before (88/75/75% against 50/56/38%) and after (72/72/61% against 44/44/33%), so the model's confidence is informative. The average confidence when right (about 0.36) and wrong (about 0.34) is nearly the same, though.
 
 ## What's Still Broken
 
-<!-- For each criterion still missed: what you'd do, and why you stopped. -->
-
-**Criterion 1 (accuracy ≥ 0.60): still MISSED after the change.** Accuracy was 0.61, 0.55 and 0.50 across seeds (0.66, 0.60, 0.58 before). What I would do next: tighten the `news_info` definition and relabel that boundary, because the agreement check could not test it (the staff set has no `news_info` label), and add more `hot_take` and `news_info` examples so the new `analysis` rows do not dominate. I stopped because this unit allows one improvement and the deadline is close.
+**Criterion 1 (accuracy ≥ 0.60): still MISSED after the change.** Accuracy was 0.61, 0.55 and 0.50 across seeds (0.66, 0.60, 0.58 before). What I would do next: tighten the `news_info` definition and relabel that boundary, because the agreement check could not test it (the staff set has no `news_info` label), and add more `hot_take` and `news_info` examples so the new `analysis` rows do not dominate. I stopped after one improvement, and the deadline is close.
 
 **Criterion 2 (each of `reaction`, `hot_take`, `news_info` F1 ≥ 0.50): MET before, MISSED after.** `hot_take` fell to 0.43 on seed 42 (7 of its 14 real posts were called `reaction`) and `news_info` fell to 0.43 on seed 7 (7 of its 15 real posts were called `reaction`). The change I made did not touch these labels, so I think adding `analysis` examples shifted what the model predicts for them. I would fix it with the same two steps as criterion 1, and re-run on the same test split so the comparison is fair. I stopped for the same reason.
 
 Criterion 3 (`analysis` F1 ≥ 0.30) was MISSED before and is MET after, so it is not broken any more.
 
+**The gap between what I meant my labels to capture and what the model learned:** I meant `hot_take` to be a general claim about the world and `news_info` to be a neutral report, but the model leans toward `reaction` for short informal posts: on the after run, seed 42, 7 of 14 real `hot_take` posts and 5 of 15 real `news_info` posts were called `reaction`. So it learned something closer to tone (short and casual against structured and numeric) than my distinctions of claim, report and feeling, and it probably learned `analysis` partly as "has many numbers", which is how I collected the new examples.
 
-**The gap between what I meant my labels to capture and what the model
-learned:**
-<!-- Two sentences. Your confusion matrix is the evidence. -->
+## What I'd Do Differently
 
-I meant `hot_take` to be a general claim about the world and `news_info` to be a neutral report, but the model leans toward `reaction` for short informal posts: on the after run, seed 42, 7 of 14 real `hot_take` posts and 5 of 15 real `news_info` posts were called `reaction`. So it learned something closer to tone (short and casual against structured and numeric) than my distinctions of claim, report and feeling, and it probably learned `analysis` partly as "has many numbers", which is how I collected the new examples.
+- I'd collect many more `analysis` posts before the first training run. With 29 rows and 5 in the test split, criterion 3 could not pass, and any F1 for that label was close to noise.
+- I'd gather the extra `analysis` posts without searching on stat keywords, because that likely taught the model "has many numbers" instead of "argues from a fact".
+- I'd keep one test split fixed before and after the change, so a drop in accuracy can be told apart from a different set of 56 posts.
+- I'd write a sharper `news_info` definition up front, since it is the label the agreement check could not test and the one most often called `reaction`.
 
-**Stretch (confidence check, added after the runs):** the most-confident third of predictions was right more often than the least-confident third on every seed, both before (88/75/75% against 50/56/38%) and after (72/72/61% against 44/44/33%), so the model's confidence is informative, though the average confidence when right (about 0.36) and wrong (about 0.34) is nearly the same.
+## How I Used AI
 
-<!-- ═════════════════════════════════════════════════════════════════════
+**Moment 1: Finding the label set**
 
-     SUBMISSION CHECKLIST — unit 5
+- *What I asked for:* I gave Claude my 350 collected posts and asked what distinctions it could see in the actual text.
+- *What came back:* Five types of post (short emotional reactions, confident claims with no support, arguments backed by a specific fact, questions and debate prompts, and news or match logistics) and a draft three-label set, with a note that news and match threads fit none of the three.
+- *What I changed:* I added a fourth label, `news_info`, instead of filtering those posts out, and kept the `analysis` vs `hot_take` decision rule as my own.
 
-       [ ] criteria.md has five numbered criteria, each naming a NUMBER
-       [ ] Each has a reason underneath tied to your data or taxonomy
-       [ ] labels.csv: at least 150 rows, text/label/note, ONE file not split
-       [ ] No label above 70%
-       [ ] All five unit 5 sections have real content
-       [ ] Label Taxonomy includes the decision rule for your hardest boundary
-       [ ] The Dataset includes three hard cases
-       [ ] results.json and test_split.csv committed (the notebook does this)
-       [ ] At least four new commits
-       [ ] Repository URL submitted — WRITE IT DOWN
+**Moment 2: Collecting the posts**
 
-     SUBMISSION CHECKLIST — unit 6
+- *What I asked for:* I asked Claude for a Python script to collect r/IndianCricket posts into a CSV.
+- *What came back:* A scraper that called Reddit's public JSON endpoints. It failed on my machine with 403 "Blocked" errors on every listing and saved 0 posts.
+- *What I changed:* I switched approach: I saved the same listings as JSON from my browser and had a second script (`json_to_csv.py`) convert them to the text, label, note CSV.
 
-       [ ] Baseline vs. Trained table, with your prediction written beforehand
-       [ ] Run Log — Before, five criteria across three seeds
-       [ ] Confusion matrix TYPED AS A MARKDOWN TABLE
-       [ ] A verdict on every criterion
-       [ ] A diagnosis for every miss, using the agreement report as evidence
-       [ ] Agreement Report with every disagreement adjudicated
-       [ ] One improvement, with Run Log — After
-       [ ] What's Still Broken
-       [ ] results_three_seeds_before.json, results_three_seeds_after.json,
-           baseline_results.json and
-           agreement_results.json committed
-       [ ] At least four new commits
-       [ ] The SAME repository URL as last unit
+**Pre-labeling disclosure:** Claude pre-labeled 310 of the 330 rows in `labels.csv` from my four written definitions; those rows are marked "pre-labeled by AI" in the note column, and I read and corrected them. The other 20 rows (marked `cold`) are my own labels, made first with no AI help.
 
-     Do not delete and recreate this repository.
-     ═════════════════════════════════════════════════════════════════════ -->
-
----
-
-📖 **How to run this project: [RUNNING.md](RUNNING.md)**
+**For the improvement:** Claude pre-labeled 150 candidate posts I collected from Reddit search pages, marking 37 as `analysis`. I read the marked posts and relabeled them from my own understanding of the definitions; around 35 were changed. Claude also wrote the helper script for the candidate search and merge (`analysis_candidates.py`).
