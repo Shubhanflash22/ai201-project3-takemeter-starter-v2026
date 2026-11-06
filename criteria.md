@@ -1,6 +1,6 @@
 # Acceptance criteria: TakeMeter
 
-Five criteria that say what "working" means for this classifier, written in unit 5 **before** anything was trained. Each must hold on all three seeds in unit 6.
+Five criteria that say what "working" means for this classifier, written **before** anything was trained. Each must hold on all three seeds in unit 6.
 
 Community: r/IndianCricket. Labels: `analysis`, `hot_take`, `reaction`, `news_info`.
 

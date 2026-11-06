@@ -124,7 +124,7 @@ def check_packages():
         return report(
             "FAIL",
             "requirements.txt",
-            f"Not found next to test.py. Run this from inside the starter repo folder.",
+            f"Not found next to test.py. Run this from inside the repo folder.",
         )
 
     missing, wrong = [], []

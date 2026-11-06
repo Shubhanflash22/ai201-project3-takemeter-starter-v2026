@@ -75,7 +75,7 @@ def load(path, pd):
     if not Path(path).exists():
         print(f"No file at {path}.", file=sys.stderr)
         if "staff" in str(path):
-            print("That's the staff set. `data/staff_posts.csv` ships in the starter;", file=sys.stderr)
+            print("That's the staff set. `data/staff_posts.csv` is in the repo;", file=sys.stderr)
             print("`data/staff_labels.csv` is the staff labels file and is not in the repo yet.", file=sys.stderr)
         else:
             print("Make it by copying the staff set's posts into a CSV with a `text`", file=sys.stderr)
@@ -99,7 +99,7 @@ def load_pair(posts_path, labels_path, pd):
     for path, what in ((posts_path, "posts"), (labels_path, "labels")):
         if not Path(path).exists():
             print(f"No file at {path}.", file=sys.stderr)
-            print(f"That's the staff {what}. The posts ship in the starter under", file=sys.stderr)
+            print(f"That's the staff {what}. The posts are in the repo under", file=sys.stderr)
             print("data/staff_posts.csv; the labels file comes from staff.", file=sys.stderr)
             sys.exit(1)
 

@@ -107,7 +107,7 @@ def merge():
 
     have = {key(t) for t in labels["text"]}
     keep = keep[~keep["text"].map(key).isin(have)]
-    keep["note"] = "added in unit 6 improvement (analysis); reviewed by me"
+    keep["note"] = "added in improvement (analysis); reviewed by me"
     merged = pd.concat([labels, keep[["text", "label", "note"]]], ignore_index=True)
     merged.to_csv("labels.csv", index=False, encoding="utf-8")
 
