@@ -1,31 +1,27 @@
 #!/usr/bin/env python3
 """
-The baseline. ← UNIT 6, MILESTONE 1
+The baseline.
 
-Before you judge your trained model, find out how hard the task is without one.
+Before judging the trained model, find out how hard the task is without one.
 
-This runs a general model over your held-out posts using **only your label
-definitions** — no training, no examples. That's called zero-shot, and it's a
-fair opponent. If it matches your fine-tuned model, your training added
-nothing, and that is a finding worth having rather than a failure.
+This runs a general model over the held-out posts using only the label
+definitions: no training, no examples. That is zero-shot classification. If it
+matches the fine-tuned model, the training added nothing.
 
 **The same posts, both models.** Section 5 of the notebook writes the held-out
-split to `test_split.csv` and commits it. This reads that file, so the two
-columns of your Baseline vs. Trained table are scored on one set of posts. A
-comparison across two different sets isn't a comparison.
+split to `test_split.csv`. This reads that file, so the two columns of the
+Baseline vs. Trained table are scored on one set of posts. A comparison across
+two different sets isn't a comparison.
 
-Everything here runs **on your own machine**. No account, no key, nothing to
-sign up for. It is slower than the trained model — expect a few seconds per
-post, so 30 posts takes a couple of minutes. That's normal, and it's part of
-the point: this is what "no fine-tuning" costs you at runtime as well as in
-accuracy.
+Everything here runs locally. No account or key is needed. It is slower than the
+trained model, at a few seconds per post (30 posts takes a couple of minutes),
+which is part of the cost of no fine-tuning.
 
     python baseline.py --help
     python baseline.py
     python baseline.py --trained results.json
 
-The first run downloads the model, about 1.6 GB. Do that before class, not
-during.
+The first run downloads the model, about 1.6 GB.
 """
 
 import argparse
@@ -34,7 +30,7 @@ import sys
 from pathlib import Path
 
 # Windows consoles default to a codepage that can't encode the characters this
-# file prints, and Python only notices when the output is redirected — so
+# file prints, and Python only notices when output is redirected, so
 # `python baseline.py > log.txt` would crash where the same command on screen is
 # fine. Ask for UTF-8 on the way out.
 for _stream in (sys.stdout, sys.stderr):
@@ -46,27 +42,27 @@ for _stream in (sys.stdout, sys.stderr):
 
 # The zero-shot model. It was trained to judge whether a piece of text entails
 # a hypothesis, which is enough to ask "is this post about X?" without ever
-# having seen your labels.
+# having seen the labels.
 ZERO_SHOT_MODEL = "facebook/bart-large-mnli"
 
-# What gets slotted into the hypothesis for each label. Your label names are
+# What gets slotted into the hypothesis for each label. The label names are
 # short, so this gives the model a sentence to work with.
 HYPOTHESIS = "This post is {}."
 
 
 def load_definitions(path):
     """
-    Read your label definitions.
+    Read the label definitions.
 
-    Format is one label per line:
+        Format is one label per line:
 
-        analysis: makes an argument backed by a specific checkable fact
-        hot_take: a confident claim with no support offered
-        reaction: an immediate response to something that just happened
+            analysis: makes an argument backed by a specific checkable fact
+            hot_take: a confident claim with no support offered
+            reaction: an immediate response to something that just happened
 
-    Copy these from your README so the baseline is judged on exactly the
-    definitions you wrote. If the file doesn't exist, the label names are used
-    on their own — which is a weaker prompt and worth saying so in your README.
+        These are copied from the README so the baseline is judged on exactly the
+        definitions written there. If the file doesn't exist, the label names are
+        used on their own, which is a weaker prompt.
     """
     if not Path(path).exists():
         return {}
@@ -84,11 +80,10 @@ def classify(texts, labels, definitions=None, quiet=False):
     """
     Zero-shot classify every text. Returns a list of predicted label strings.
 
-    The model scores each candidate and the highest wins, so — unlike asking a
-    chat model for a label — this can't come back as a sentence, an apology, or
-    a label you never defined. That whole class of parsing problem doesn't
-    exist here, which is why the brief's warning about replies "in the wrong
-    format" doesn't apply to this route.
+        The model scores each candidate and the highest wins, so unlike asking a
+        chat model for a label, this can't come back as a sentence, an apology, or
+        a label that was never defined. That whole class of parsing problem doesn't
+        exist here.
     """
     from transformers import pipeline
 
@@ -123,7 +118,7 @@ def score(gold, predicted, labels):
     """
     Accuracy and per-label precision / recall / F1.
 
-    Pure arithmetic, no model — which is why the smoke test can check it.
+        Pure arithmetic, no model.
     """
     n = len(gold)
     correct = sum(1 for g, p in zip(gold, predicted) if g == p)
@@ -157,10 +152,10 @@ def score(gold, predicted, labels):
 
 def markdown_table(baseline_scores, labels, trained=None):
     """
-    The Baseline vs. Trained table your README asks for.
+    The Baseline vs. Trained table.
 
-    Pass `trained` — the per-label block out of results.json — to get both
-    columns side by side.
+        Pass `trained`, the per-label block out of results.json, to get both
+        columns side by side.
     """
     rows = ["| Measure | Baseline | Trained | Difference |",
             "|---|---|---|---|"] if trained else ["| Measure | Baseline |", "|---|---|"]
@@ -189,9 +184,9 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    parser.add_argument("--data", default="labels.csv", help="your labelled CSV")
+    parser.add_argument("--data", default="labels.csv", help="the labelled CSV")
     parser.add_argument("--definitions", default="label_definitions.txt",
-                        help="your label definitions, one per line")
+                        help="label definitions, one per line")
     parser.add_argument("--held-out", default="test_split.csv",
                         help="the notebook's held-out posts (written by section 5)")
     parser.add_argument("--n", type=int, default=None,
@@ -210,7 +205,7 @@ def main():
         sys.exit(1)
 
     if not Path(args.data).exists():
-        print(f"No file at {args.data}. Point --data at your labelled CSV.", file=sys.stderr)
+        print(f"No file at {args.data}. Point --data at the labelled CSV.", file=sys.stderr)
         sys.exit(1)
 
     df = pd.read_csv(args.data)
@@ -223,15 +218,15 @@ def main():
     definitions = load_definitions(args.definitions)
 
     if definitions:
-        print(f"Using your definitions from {args.definitions}.")
+        print(f"Using definitions from {args.definitions}.")
     else:
         print(f"No {args.definitions} found — using bare label names.")
-        print("That's a weaker prompt than the definitions you wrote. Say so in")
-        print("your README, or create the file. See --help for the format.\n")
+        print("That is a weaker prompt than written definitions. Create the file to")
+        print("fix it; see --help for the format.\n")
 
-    # Score the posts the notebook tested your trained model on, so both columns
-    # of the Baseline vs. Trained table come from the same set. Section 5 writes
-    # them to test_split.csv.
+    # Score the posts the notebook tested the trained model on, so both columns of
+    # the Baseline vs. Trained table come from the same set. Section 5 writes them
+    # to test_split.csv.
     held_out = Path(args.held_out)
     like_for_like = held_out.exists()
 
@@ -243,16 +238,15 @@ def main():
         if args.n and args.n < available:
             posts = posts.head(args.n)
             print()
-            print(f"[note] Capped at {args.n} of {available} held-out posts, so your")
+            print(f"[note] Capped at {args.n} of {available} held-out posts, so the")
             print("       trained numbers cover more posts than this does. The two")
             print("       columns aren't scored on the same set. Drop --n to fix it.")
     else:
         posts = df.sample(n=min(args.n or 30, len(df)), random_state=args.seed)
         print(f"[warn] No {held_out} here, so this is a random sample of {args.data} —")
-        print("       mostly posts your model trained on. Baseline vs. Trained then")
+        print("       mostly posts the model trained on. Baseline vs. Trained then")
         print("       compares two different sets of posts, which is not a")
-        print("       comparison. Run the notebook's section 5 to get the file, or")
-        print("       say plainly in your README that yours isn't like-for-like.")
+        print("       comparison. Run the notebook's section 5 to get the file.")
 
     texts = posts["text"].tolist()
     gold = posts["label"].astype(str).str.strip().tolist()
@@ -272,7 +266,7 @@ def main():
     if args.trained and Path(args.trained).exists():
         trained = json.loads(Path(args.trained).read_text())
 
-    print("\n\nPaste this into your README under **Baseline vs. Trained**:\n")
+    print("\n\n**Baseline vs. Trained**\n")
     print(markdown_table(scores, labels, trained))
 
     Path(args.out).write_text(json.dumps({
@@ -288,10 +282,7 @@ def main():
         ],
     }, indent=2), encoding="utf-8")
 
-    print(f"\nWrote {args.out}. Commit it.")
-    print("\nBefore you look at your trained model's numbers: write one sentence")
-    print("predicting where it will beat this. Milestone 1 asks for it, and a")
-    print("prediction made after the fact isn't one.")
+    print(f"\nWrote {args.out}.")
 
 
 if __name__ == "__main__":

@@ -1,15 +1,15 @@
 """
-Milestone 5 helper: find NEW candidate `analysis` posts and, after you have
-reviewed them, add the ones you approve to labels.csv.
+Find NEW candidate `analysis` posts and, after reviewing them, add the approved
+ones to labels.csv.
 
 Step A (find candidates):
     1. Save Reddit search pages as .json files into ./reddit_json_analysis/
     2. python analysis_candidates.py
        -> writes candidates_analysis.csv (new posts with the most numbers first)
 
-Step B (after you labelled rows `analysis` in candidates_analysis.csv):
+Step B (after labelling rows `analysis` in candidates_analysis.csv):
     python analysis_candidates.py --merge
-       -> backs up labels.csv, appends your approved rows, prints new counts
+       -> backs up labels.csv, appends the approved rows, prints new counts
 """
 import argparse
 import glob

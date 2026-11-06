@@ -2,19 +2,15 @@
 """
 AI201 environment check.
 
-Run this before every class:
-
     python test.py
 
-It checks the things that actually break: your Python version, your virtual
-environment, your pinned packages, whether your machine has the disk and
-memory a training run needs, and whether the baseline model has been
-downloaded. It is the same file in every unit's starter repo — the checks
-adapt to whatever that unit's requirements.txt pins.
+It checks the things that actually break: the Python version, the virtual
+environment, the pinned packages, whether the machine has the disk and memory a
+training run needs, and whether the baseline model has been downloaded. The
+checks adapt to whatever this repo's requirements.txt pins.
 
-This pair needs no API key. Nothing here calls a hosted service.
-
-Nothing here touches your project code, and nothing here is graded.
+This project needs no API key. Nothing here calls a hosted service, and nothing
+here touches the project code.
 """
 
 import importlib
@@ -27,7 +23,7 @@ import sys
 from pathlib import Path
 
 # Windows consoles default to a codepage that can't encode the characters this
-# file prints, and Python only notices when the output is redirected — so
+# file prints, and Python only notices when output is redirected, so
 # `python test.py > log.txt` would crash where the same command on screen is
 # fine. Ask for UTF-8 on the way out.
 for _stream in (sys.stdout, sys.stderr):
@@ -37,21 +33,20 @@ for _stream in (sys.stdout, sys.stderr):
         pass
 
 
-# --- Course-wide pins -------------------------------------------------------
-# This pair has no hosted model and no API key. Both models it uses — the
-# fine-tune and the zero-shot baseline — run on your machine and are named in
-# the notebook and in baseline.py.
+# --- Pins -------------------------------------------------------------------
+# No hosted model and no API key. Both models used (the fine-tune and the
+# zero-shot baseline) run locally and are named in the notebook and in
+# baseline.py.
 
 MIN_PYTHON = (3, 11)
-MAX_PYTHON = (3, 14)  # exclusive — 3.14 breaks the pinned stack
-MIN_DISK_GB = 9   # pair 3 steps up: the local baseline model is ~1.6 GB
-# 6, not 4. Two things on this machine are memory-hungry: baseline.py peaks
-# around 1.8 GB loading the zero-shot model, and the unit 5 training run peaks
-# around 2.1 GB. Neither fits comfortably beside an editor and a browser on a
-# 4 GB machine.
+MAX_PYTHON = (3, 14)  # exclusive: 3.14 breaks the pinned stack
+MIN_DISK_GB = 9   # the local baseline model is ~1.6 GB
+# 6, not 4. Two things are memory-hungry: baseline.py peaks around 1.8 GB
+# loading the zero-shot model, and the training run peaks around 2.1 GB.
+# Neither fits comfortably beside an editor and a browser on a 4 GB machine.
 MIN_RAM_GB = 6
 
-# Distribution name on PyPI -> module name you actually import.
+# Distribution name on PyPI -> module name actually imported.
 IMPORT_NAMES = {
     "python-dotenv": "dotenv",
     "google-genai": "google.genai",
@@ -261,7 +256,7 @@ def check_baseline_model():
         "WARN",
         "Baseline model",
         "Not downloaded yet (~1.6 GB). It downloads on your first run of\n"
-        "         baseline.py. Do that BEFORE the unit 6 session, not during it.",
+        "         baseline.py.",
     )
 
 
@@ -301,14 +296,13 @@ def main():
           f"{len(warned)} to look at, {len(skipped)} skipped\n")
     if failed:
         print("Not ready yet. Fix the FAIL lines above, then run test.py again.")
-        print("Still stuck after one honest attempt? Post the whole output in the")
-        print("help channel — the day before class, not the morning of.\n")
+        print("Still stuck? Post the whole output in the help channel.\n")
         return 1
     if skipped:
         print("You're set for what's installed. The skipped checks are packages")
-        print("this unit's requirements.txt doesn't pin yet — that's expected.\n")
+        print("this repo's requirements.txt doesn't pin yet — that's expected.\n")
         return 0
-    print("You're set. See you in class.\n")
+    print("You're set.\n")
     return 0
 
 

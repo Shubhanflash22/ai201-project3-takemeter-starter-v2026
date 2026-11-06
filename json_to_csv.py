@@ -1,6 +1,6 @@
 """
-Convert Reddit listing JSON files saved from your browser into raw_posts.csv
-(columns: text, label, note; label left blank for you to fill in).
+Convert Reddit listing JSON files saved from the browser into raw_posts.csv
+(columns: text, label, note; label left blank to be filled in).
 
 Usage:
     1. Save each listing page as a .json file inside ./reddit_json/

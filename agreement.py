@@ -1,36 +1,33 @@
 #!/usr/bin/env python3
 """
-The agreement check. ← UNIT 6, MILESTONE 3
+The agreement check.
 
-Staff labelled 30 posts under the taxonomy in `data/staff_taxonomy.md`. You
-label the same 30 under those same definitions — not your own — and this works
-out how often you matched and lists every post where you didn't.
+Staff labelled 30 posts under the taxonomy in `data/staff_taxonomy.md`. The same
+30 are labelled again under those same definitions (not my own), and this works
+out how often the labels matched and lists every post where they didn't.
 
-Read `data/staff_taxonomy.md` first. Applying somebody else's written rule the
-way they applied it is the whole exercise, and it is the only evidence you have
-about whether your own 200 labels were consistent.
+Applying somebody else's written rule the way they applied it is the whole
+exercise, and it is the only evidence about whether the 200 labels were
+consistent. It is the one instrument that can tell a labelling problem from a
+model problem.
 
     python agreement.py --help
     python agreement.py
-    python agreement.py --staff-posts data/staff_posts.csv \
-                        --staff-labels data/staff_labels.csv --mine my_labels.csv
+    python agreement.py --staff-posts data/staff_posts.csv                         --staff-labels data/staff_labels.csv --mine my_labels.csv
     python agreement.py --staff data/staff_combined.csv --mine my_labels.csv
 
-**Label the posts before you run this.** The rate is arithmetic and the script
-does it for you. The adjudication is the graded part and the script deliberately
-does not touch it — it hands you the disagreements and an empty column.
-
-This is the only instrument you have that can tell a labelling problem from a
-model problem, which is exactly what Milestone 4 asks you to use it for.
+Label the posts before running this. The rate is arithmetic and the script does
+it. The adjudication is deliberately left alone: the script hands over the
+disagreements and an empty column.
 
 The staff set comes as two files. `data/staff_posts.csv` and
-`data/staff_taxonomy.md` ship in the starter; `data/staff_labels.csv` is the
-one your TF sends you, once yours are done. Posts and labels join on `id`. Your
-own file needs a `text` column and a `label` column. If you happen to have the
-staff posts and labels already in one file, pass it with `--staff` instead.
+`data/staff_taxonomy.md` ship with the project; `data/staff_labels.csv` is the
+labels file from staff. Posts and labels join on `id`. My own file needs a
+`text` column and a `label` column. If the staff posts and labels are already in
+one file, pass it with `--staff` instead.
 
-Posts are matched on their text, so paste it unchanged — if you retype or trim
-a post it won't match and the script will tell you which one.
+Posts are matched on their text, so paste it unchanged. If a post is retyped or
+trimmed it won't match and the script says which one.
 """
 
 import argparse
@@ -40,7 +37,7 @@ import sys
 from pathlib import Path
 
 # Windows consoles default to a codepage that can't encode the characters this
-# file prints, and Python only notices when the output is redirected — so
+# file prints, and Python only notices when output is redirected, so
 # `python agreement.py > log.txt` would crash where the same command on screen
 # is fine. Ask for UTF-8 on the way out.
 for _stream in (sys.stdout, sys.stderr):
@@ -79,8 +76,7 @@ def load(path, pd):
         print(f"No file at {path}.", file=sys.stderr)
         if "staff" in str(path):
             print("That's the staff set. `data/staff_posts.csv` ships in the starter;", file=sys.stderr)
-            print("`data/staff_labels.csv` is the one your TF sends you once your own", file=sys.stderr)
-            print("labels are done. Ask in the help channel if you haven't been sent it.", file=sys.stderr)
+            print("`data/staff_labels.csv` is the staff labels file and is not in the repo yet.", file=sys.stderr)
         else:
             print("Make it by copying the staff set's posts into a CSV with a `text`", file=sys.stderr)
             print("column and a `label` column, then labelling them yourself.", file=sys.stderr)
@@ -104,8 +100,7 @@ def load_pair(posts_path, labels_path, pd):
         if not Path(path).exists():
             print(f"No file at {path}.", file=sys.stderr)
             print(f"That's the staff {what}. The posts ship in the starter under", file=sys.stderr)
-            print("data/staff_posts.csv; the labels are what your TF sends you once", file=sys.stderr)
-            print("your own are done. Ask in the help channel if you're missing either.", file=sys.stderr)
+            print("data/staff_posts.csv; the labels file comes from staff.", file=sys.stderr)
             sys.exit(1)
 
     posts = pd.read_csv(posts_path)
@@ -165,7 +160,7 @@ def shorten(text, width=70):
 
 
 def disagreement_table(disagreements):
-    """The skeleton your README needs. The last column is yours to fill in."""
+    """The disagreement skeleton for the README. The last column is filled in by hand."""
     rows = ["| Post | Staff said | I said | My call, and why |",
             "|---|---|---|---|"]
     for row in disagreements:
@@ -182,7 +177,7 @@ def main():
         epilog=__doc__,
     )
     parser.add_argument("--staff-posts", default="data/staff_posts.csv",
-                        help="the staff posts your TF gives you")
+                        help="the staff posts")
     parser.add_argument("--staff-labels", default="data/staff_labels.csv",
                         help="the staff labels, joined to the posts on `id`")
     parser.add_argument("--staff", default=None,
@@ -228,11 +223,9 @@ def main():
         print(f"[look at] {len(extra)} posts in your file aren't in the staff set.\n")
 
     if not disagreements:
-        print("You matched staff on every post. Say so in your README — and say")
-        print("whether you think the set was easy or your rule is genuinely tight.")
+        print("Matched staff on every post.")
     else:
-        print("Here they are. Your README has a block to fill in for each one —")
-        print("the post, both labels, your call and why, and which pile it goes in.\n")
+        print("Here they are, with both labels, a call and why, and which pile each goes in.\n")
         print(disagreement_table(disagreements))
         print()
         print('"Staff is right" every time is not adjudication. Some of these posts')
@@ -246,7 +239,7 @@ def main():
         "staff_posts_not_in_mine": len(missing),
     }, indent=2), encoding="utf-8")
 
-    print(f"\nWrote {args.out}. Commit it.")
+    print(f"\nWrote {args.out}.")
     print("\nThen sort each disagreement into one of three piles:")
     print("  (a) the rule covered it and you applied it loosely — a consistency problem")
     print("  (b) the rule genuinely doesn't say — a gap in the definitions")
