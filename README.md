@@ -62,7 +62,7 @@ TakeMeter sorts posts from r/IndianCricket, a large public Indian cricket fan co
 
 **Where the posts came from:** r/IndianCricket, a public subreddit. Reddit blocked scripted access, so I saved the public listings (hot, new, top of the year, top of the month, controversial of the year) as JSON from my browser and converted them to CSV with a short script (`json_to_csv.py`), keeping the title plus any body text. That gave 350 posts. After cleaning (HTML entities, duplicates, "content not supported" stubs) 346 remained, and 330 are in `labels.csv`. The 16 left out fit none of my four labels (for example empty prompts like "What's your thought on this?" and off-topic venting).
 
-**How I labeled them:** I labeled 20 posts cold first (a random sample, no tools and no AI, marked `cold` in the note column). The other 310 were pre-labeled by Claude and checked by me from my written definitions, and marked "pre-labeled" in the note column. The rows it was least sure of were also marked "(uncertain)". I then read and corrected the pre-labeled rows. The final file is one unsplit `labels.csv` with text, label and note columns.
+**How I labeled them:** I labeled 20 posts cold first (a random sample, no tools and no AI, marked `cold` in the note column). The other 310 were pre-labeled by Claude (the raw pass is kept in `prelabeled.csv`, marked "pre-labeled by AI, NEEDS YOUR REVIEW"). I then read and corrected every one from my written definitions, and they are marked "pre-labelled, checked" in the note column of `labels.csv`. The final file is one unsplit `labels.csv` with text, label and note columns.
 
 **Counts per label:**
 
@@ -245,6 +245,6 @@ Criterion 3 (`analysis` F1 ≥ 0.30) was MISSED before and is MET after, so it i
 - *What came back:* A scraper that called Reddit's public JSON endpoints. It failed on my machine with 403 "Blocked" errors on every listing and saved 0 posts.
 - *What I changed:* I switched approach: I saved the same listings as JSON from my browser and had a second script (`json_to_csv.py`) convert them to the text, label, note CSV.
 
-**Pre-labeling disclosure:** Claude pre-labeled 310 of the 330 rows in `labels.csv` from my four written definitions; those rows are marked "pre-labeled by AI" in the note column, and I read and corrected them. The other 20 rows (marked `cold`) are my own labels, made first with no AI help.
+**Pre-labeling disclosure:** Claude pre-labeled 310 of the 330 rows in `labels.csv` from my four written definitions; those rows are marked "pre-labelled, checked" in the note column of `labels.csv` (the raw pass is in `prelabeled.csv`), and I read and corrected them. The other 20 rows (marked `cold`) are my own labels, made first with no AI help.
 
 **For the improvement:** Claude pre-labeled 150 candidate posts I collected from Reddit search pages, marking 37 as `analysis`. I read the marked posts and relabeled them from my own understanding of the definitions; around 35 were changed. Claude also wrote the helper script for the candidate search and merge (`analysis_candidates.py`).
